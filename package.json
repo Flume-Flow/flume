@@ -1,0 +1,24 @@
+{
+  "name": "flume",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Flume-Flow/flume.git",
+  "author": "Oleksandr Samsonovo",
+  "license": "MIT",
+  "bin": {
+    "flume-cli": "./bin/run.js"
+  },
+  "oclif": {
+    "bin": "flume-cli",
+    "commands": "./dist/commands",
+    "dirname": "flume-cli",
+    "topicSeparator": " "
+  },
+  "dependencies": {
+    "@oclif/core": "^4.11.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "ts-node": "^10.9.2"
+  }
+}
