@@ -1,0 +1,32 @@
+name: CI Build Check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the source code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Set up a Node.js environment
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+
+      # 3. Install dependencies for the entire workspace
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # 4. Build flume-cli
+      - name: Build flume-cli
+        run: yarn workspace flume-cli build
+
+
+
