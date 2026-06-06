@@ -6,6 +6,16 @@
     "flume-cli"
   ],
   "scripts": {
-    "preinstall": "node scripts/check-node.js"
+    "preinstall": "node scripts/check-node.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0",
+    "husky": "^9.1.7",
+    "typescript-eslint": "^8.60.1"
   }
 }

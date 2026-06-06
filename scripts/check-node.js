@@ -6,24 +6,23 @@ const actual = process.versions.node;
 const major = parseInt(actual.split('.')[0], 10);
 
 if (major !== required) {
-  const isWindows = process.platform === 'win32';
-  const shell = (process.env.SHELL || '').split('/').pop();
+    const isWindows = process.platform === 'win32';
 
-  let switchCmd;
-  let persistNote;
+    let switchCmd;
+    let persistNote;
 
-  if (isWindows) {
-    switchCmd = 'fnm use';
-    persistNote = `   To make it automatic, install fnm and configure PowerShell:
+    if (isWindows) {
+        switchCmd = 'fnm use';
+        persistNote = `   To make it automatic, install fnm and configure PowerShell:
      winget install Schniz.fnm
      Then add to $PROFILE: fnm env --use-on-cd | Out-String | Invoke-Expression`;
-  } else {
-    switchCmd = 'nvm use  (or: fnm use)';
-    persistNote = `   To make it switch automatically on cd, run:
+    } else {
+        switchCmd = 'nvm use  (or: fnm use)';
+        persistNote = `   To make it switch automatically on cd, run:
      node scripts/setup-node.js`;
-  }
+    }
 
-  console.error(`
+    console.error(`
 ❌ Wrong Node version: ${actual}
    This project requires Node ${required}.
 
@@ -32,5 +31,5 @@ if (major !== required) {
 
 ${persistNote}
 `);
-  process.exit(1);
+    process.exit(1);
 }

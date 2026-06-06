@@ -9,7 +9,7 @@ const nvmrc = path.join(__dirname, '..', '.nvmrc');
 const requiredNode = parseInt(fs.readFileSync(nvmrc, 'utf8').trim(), 10);
 
 if (platform === 'win32') {
-  require('./setup/windows')({ requiredNode });
+    require('./setup/windows')({ requiredNode });
 } else {
-  require('./setup/unix')({ requiredNode, platform, shell, home });
+    require('./setup/unix')({ requiredNode, platform, shell, home });
 }
