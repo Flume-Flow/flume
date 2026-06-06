@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
-    "test": "node --test 'scripts/**/*.test.js'"
+    "test": "node --test 'scripts/**/*.test.js'",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines 95 --test-coverage-branches 90 --test-coverage-functions 80 'scripts/**/*.test.js'"
   },
   "devDependencies": {
     "@types/node": "^25.9.2",
