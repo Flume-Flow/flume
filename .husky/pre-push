@@ -1,2 +1,16 @@
 yarn lint:fix
 yarn lint
+
+if command -v gh >/dev/null 2>&1; then
+    IS_DRAFT=$(gh pr view --json isDraft -q '.isDraft' 2>/dev/null)
+    if [ "$IS_DRAFT" = "false" ]; then
+        yarn test:coverage
+    fi
+else
+    if ! yarn test:coverage 2>/dev/null; then
+        echo ""
+        echo "⚠️  Coverage is below thresholds. Install gh CLI to enforce this on every push."
+        echo "   Run: node scripts/setup-gh.js"
+        echo ""
+    fi
+fi
