@@ -28,12 +28,12 @@ jobs:
         run: |
           project_id=$(gh api graphql -f query='
             query {
-              viewer {
+              organization(login: "Flume-Flow") {
                 projectsV2(first: 20) {
                   nodes { id title }
                 }
               }
-            }' --jq '.data.viewer.projectsV2.nodes[] | select(.title == "Flume") | .id')
+            }' --jq '.data.organization.projectsV2.nodes[] | select(.title == "Flume") | .id')
           echo "project_id=$project_id" >> "$GITHUB_OUTPUT"
 
       - name: Create draft issue

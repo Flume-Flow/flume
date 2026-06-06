@@ -2,7 +2,7 @@
 
 ## `track-unlinked-commits` workflow
 
-This workflow detects commits pushed directly to `main` without a linked PR and creates a draft issue in the **Flume** GitHub Project.
+This workflow detects commits pushed directly to `main` without a linked PR and creates a draft issue in the **Flume** GitHub Project under the `Flume-Flow` organization.
 
 ### Required secret: `GH_PAT`
 
@@ -17,4 +17,4 @@ This workflow detects commits pushed directly to `main` without a linked PR and 
 
 ### ⚠️ If the project is renamed
 
-The workflow resolves the project by matching the title `"Flume"` via GraphQL. If the project is renamed, the "Resolve project node ID" step will produce an empty ID and the "Create draft issue" step will fail. Update the title string in `track-unlinked-commits.yml` to match the new name.
+The workflow finds the project by matching the title `"Flume"`. If the project is renamed, the workflow will fail. Update the title string in `track-unlinked-commits.yml` to match the new name.
