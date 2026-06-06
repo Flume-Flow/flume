@@ -13,12 +13,12 @@
     "postpublish": "rm ./LICENSE"
   },
   "bin": {
-    "flume-cli": "./bin/run.js"
+    "flume": "./bin/run.js"
   },
   "oclif": {
-    "bin": "flume-cli",
+    "bin": "flume",
     "commands": "./dist/commands",
-    "dirname": "flume-cli",
+    "dirname": "flume",
     "topicSeparator": " "
   },
   "dependencies": {
