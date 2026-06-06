@@ -5,7 +5,7 @@
   "workspaces": [
     "flume-cli"
   ],
-  "engines": {
-    "node": ">=22.0.0"
+  "scripts": {
+    "preinstall": "node scripts/check-node.js"
   }
 }
