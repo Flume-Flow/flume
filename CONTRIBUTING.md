@@ -5,12 +5,16 @@
 Requires Node 24 (pinned in `.nvmrc`). If you don't have auto-switching via nvm/fnm:
 
 ```sh
-node scripts/setup-node.js  # sets up Node version manager
-node scripts/setup-gh.js    # sets up GitHub CLI (gh)
+node scripts/setup-node.js
 yarn install
 ```
 
-`gh` is optional but recommended — the pre-push hook uses it to detect draft PRs and skip coverage enforcement while you're still working.
+[GitHub CLI](https://cli.github.com) (`gh`) is optional but recommended. The pre-push hook uses it to detect whether your PR is a draft and skip coverage enforcement while you're still working. To install:
+
+```sh
+node scripts/setup-gh.js
+gh auth login
+```
 
 ## Tests
 
