@@ -1,0 +1,13 @@
+{
+    "lines": 96,
+    "branches": 91,
+    "functions": 98,
+    "gap": 2,
+    "exclude": [
+        "scripts/**/*.test.js",
+        "scripts/setup-gh.js",
+        "scripts/setup-node.js",
+        "scripts/test-coverage.js",
+        "scripts/update-coverage.js"
+    ]
+}

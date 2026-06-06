@@ -518,6 +518,7 @@ _TeamCity*
 coverage*.json
 coverage*.xml
 coverage*.info
+!coverage.config.json
 
 # Visual Studio code coverage results
 *.coverage

@@ -11,7 +11,8 @@
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
     "test": "node --test 'scripts/**/*.test.js'",
-    "test:coverage": "node scripts/test-coverage.js"
+    "test:coverage": "node scripts/test-coverage.js",
+    "coverage:update": "node scripts/update-coverage.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

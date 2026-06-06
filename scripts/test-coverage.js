@@ -1,17 +1,12 @@
 const { execSync } = require('child_process');
-const { lines, branches, functions } = require('../coverage.config.json');
+const { lines, branches, functions, exclude } = require('../coverage.config.json');
 
-const exclude = [
-    'scripts/**/*.test.js',
-    'scripts/setup-gh.js',
-    'scripts/setup-node.js',
-    'scripts/test-coverage.js',
-].map(p => `--exclude='${p}'`).join(' ');
+const excludeFlags = exclude.map(p => `--exclude='${p}'`).join(' ');
 
 try {
     execSync(
         `c8 --all --check-coverage ` +
-        `--include='scripts/**/*.js' ${exclude} ` +
+        `--include='scripts/**/*.js' ${excludeFlags} ` +
         `--lines=${lines} --branches=${branches} --functions=${functions} ` +
         `node --test 'scripts/**/*.test.js'`,
         { stdio: 'inherit' }
