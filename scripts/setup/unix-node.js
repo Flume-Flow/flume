@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const childProcess = require('child_process');
 
 const hooks = {
     fnm: {
@@ -31,13 +31,13 @@ const hooks = {
 
 function installFnm(platform) {
     const hasBrew = platform === 'darwin' && (() => {
-        try { execSync('brew --version', { stdio: 'ignore' }); return true; } catch { return false; }
+        try { childProcess.execSync('brew --version', { stdio: 'ignore' }); return true; } catch { return false; }
     })();
 
     if (hasBrew) {
-        execSync('brew install fnm', { stdio: 'inherit' });
+        childProcess.execSync('brew install fnm', { stdio: 'inherit' });
     } else {
-        execSync('curl -fsSL https://fnm.vercel.app/install | bash', { stdio: 'inherit', shell: true });
+        childProcess.execSync('curl -fsSL https://fnm.vercel.app/install | bash', { stdio: 'inherit', shell: true });
     }
 }
 
@@ -45,7 +45,7 @@ module.exports = function ({ requiredNode, platform, shell, home }) {
     // Detect version manager
     let manager = null;
     try {
-        execSync('fnm --version', { stdio: 'ignore' });
+        childProcess.execSync('fnm --version', { stdio: 'ignore' });
         manager = 'fnm';
     } catch { /* fnm not installed */ }
 
@@ -95,7 +95,7 @@ module.exports = function ({ requiredNode, platform, shell, home }) {
     if (manager === 'fnm') {
         try {
             console.log(`Installing Node ${requiredNode} via fnm...\n`);
-            execSync(`fnm install ${requiredNode}`, { stdio: 'inherit' });
+            childProcess.execSync(`fnm install ${requiredNode}`, { stdio: 'inherit' });
         } catch {
             console.warn(`⚠️  Could not install Node ${requiredNode} automatically. Run: fnm install ${requiredNode}`);
         }

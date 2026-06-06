@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const nvmrc = path.join(__dirname, '..', '.nvmrc');
-const required = parseInt(fs.readFileSync(nvmrc, 'utf8').trim(), 10);
-const actual = process.versions.node;
-const major = parseInt(actual.split('.')[0], 10);
 
-if (major !== required) {
-    const isWindows = process.platform === 'win32';
+function checkNode(required, actual, platform) {
+    const major = parseInt(actual.split('.')[0], 10);
+
+    if (major === required) return;
+
+    const isWindows = platform === 'win32';
 
     let switchCmd;
     let persistNote;
@@ -33,3 +33,11 @@ ${persistNote}
 `);
     process.exit(1);
 }
+
+if (require.main === module) {
+    const nvmrc = path.join(__dirname, '..', '.nvmrc');
+    const required = parseInt(fs.readFileSync(nvmrc, 'utf8').trim(), 10);
+    checkNode(required, process.versions.node, process.platform);
+}
+
+module.exports = checkNode;
