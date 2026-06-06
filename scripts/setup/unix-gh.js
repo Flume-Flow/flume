@@ -1,19 +1,19 @@
-const { execSync } = require('child_process');
+const childProcess = require('child_process');
 
 module.exports = function ({ platform }) {
     try {
-        execSync('gh --version', { stdio: 'ignore' });
+        childProcess.execSync('gh --version', { stdio: 'ignore' });
         console.log('✅ gh is already installed');
         return;
     } catch { /* not installed */ }
 
     const hasBrew = platform === 'darwin' || (() => {
-        try { execSync('brew --version', { stdio: 'ignore' }); return true; } catch { return false; }
+        try { childProcess.execSync('brew --version', { stdio: 'ignore' }); return true; } catch { return false; }
     })();
 
     if (hasBrew) {
         console.log('Installing gh via brew...\n');
-        execSync('brew install gh', { stdio: 'inherit' });
+        childProcess.execSync('brew install gh', { stdio: 'inherit' });
         console.log('\n✅ gh installed. Run: gh auth login\n');
     } else {
         console.log(`
