@@ -3,21 +3,25 @@ name: Dependabot auto-merge
 on:
   pull_request:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
-      - name: Auto-merge github-actions updates
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+
+      - name: Auto-merge github-actions patch and minor updates
+        if: |
+          steps.metadata.outputs.package-ecosystem == 'github-actions' &&
+          (steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+           steps.metadata.outputs.update-type == 'version-update:semver-minor')
+        run: gh pr merge --auto --merge "$PR_URL"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-        run: |
-          labels=$(gh api repos/$REPO/pulls/$PR --jq '[.labels[].name] | join(" ")')
-          if echo "$labels" | grep -qw "github-actions"; then
-            gh pr merge --auto --squash $PR
-          fi
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
