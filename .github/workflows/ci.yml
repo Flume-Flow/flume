@@ -82,15 +82,20 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Run tests with coverage
-        run: yarn test:coverage 2>&1 | tee /tmp/coverage.txt
+        run: yarn test:coverage
 
-      - name: Extract coverage table
+      - name: Fetch base branch for diff
+        if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        run: git fetch origin ${{ github.base_ref }} --depth=1
+
+      - name: Generate coverage comment
         id: cov
         if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
         run: |
-          TABLE=$(awk '/^--/{found=1} found && !/Done in/{print}' /tmp/coverage.txt)
-          echo "table<<EOF" >> $GITHUB_OUTPUT
-          echo "$TABLE" >> $GITHUB_OUTPUT
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(js|ts|mjs)$' || true)
+          COMMENT=$(echo "$CHANGED" | node scripts/coverage-comment.js)
+          echo "comment<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMENT" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Post coverage comment
@@ -98,8 +103,4 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: coverage
-          message: |
-            ## Coverage
-            ```
-            ${{ steps.cov.outputs.table }}
-            ```
+          message: ${{ steps.cov.outputs.comment }}

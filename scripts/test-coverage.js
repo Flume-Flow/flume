@@ -5,7 +5,7 @@ const excludeFlags = exclude.map(p => `--exclude='${p}'`).join(' ');
 
 try {
     execSync(
-        `c8 --all --check-coverage ` +
+        `c8 --all --check-coverage --reporter=text --reporter=json-summary ` +
         `--include='scripts/**/*.js' ${excludeFlags} ` +
         `--lines=${lines} --branches=${branches} --functions=${functions} ` +
         `node --test 'scripts/**/*.test.js'`,
