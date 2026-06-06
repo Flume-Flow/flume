@@ -1,5 +1,5 @@
 {
-  "name": "flume-cli",
+  "name": "@flume/cli",
   "version": "0.0.1",
   "repository": "git@github.com:Flume-Flow/flume.git",
   "author": "Oleksandr Samsonov",
