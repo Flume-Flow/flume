@@ -2,7 +2,7 @@ yarn lint:fix
 yarn lint
 
 if command -v gh >/dev/null 2>&1; then
-    IS_DRAFT=$(gh pr view --json isDraft -q '.isDraft' 2>/dev/null)
+    IS_DRAFT=$(gh pr view --json isDraft -q '.isDraft' 2>/dev/null) || true
     if [ "$IS_DRAFT" = "false" ]; then
         yarn test:coverage
     fi
