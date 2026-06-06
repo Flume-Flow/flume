@@ -1,0 +1,55 @@
+name: Coverage ratchet
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ratchet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Update coverage thresholds
+        run: yarn coverage:update
+
+      - name: Open PR if thresholds improved
+        run: |
+          if git diff --quiet coverage.config.json; then
+            echo "Coverage thresholds unchanged, nothing to do"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b chore/coverage-ratchet
+          git add coverage.config.json
+          git commit -m "chore: ratchet coverage thresholds"
+          git push --force origin chore/coverage-ratchet
+
+          gh pr create \
+            --title "chore: ratchet coverage thresholds" \
+            --body "Coverage improved since the last merge. Auto-updating thresholds in \`coverage.config.json\`." \
+            --base main \
+            --head chore/coverage-ratchet \
+            2>/dev/null || echo "PR already open — branch updated"
+
+          gh pr merge --auto --squash chore/coverage-ratchet \
+            2>/dev/null || echo "Auto-merge already enabled"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
