@@ -15,6 +15,7 @@ export default tseslint.config(
     },
     rules: {
       indent: ['error', 4],
+      'eol-last': ['error', 'always'],
     },
   },
   {
@@ -25,6 +26,7 @@ export default tseslint.config(
     ],
     rules: {
       indent: ['error', 4],
+      'eol-last': ['error', 'always'],
     },
   },
 );
