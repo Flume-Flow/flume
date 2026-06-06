@@ -1,5 +1,5 @@
 module.exports = function ({ requiredNode }) {
-  console.log(`
+    console.log(`
 Windows detected. Auto-switching requires fnm + PowerShell setup:
 
   1. Install fnm:
@@ -13,5 +13,5 @@ Windows detected. Auto-switching requires fnm + PowerShell setup:
 
   4. Restart PowerShell.
 `);
-  process.exit(0);
+    process.exit(0);
 };
