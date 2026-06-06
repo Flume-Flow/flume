@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const childProcess = require('child_process');
 
-const unixSetup = require('./unix');
+const unixSetup = require('./unix-node');
 
 describe('manager detection', () => {
     it('uses fnm when fnm --version succeeds', () => {

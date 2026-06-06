@@ -1,6 +1,6 @@
 const { describe, it, mock, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
-const windowsSetup = require('./windows');
+const windowsSetup = require('./windows-node');
 
 describe('windowsSetup', () => {
     afterEach(() => mock.restoreAll());
