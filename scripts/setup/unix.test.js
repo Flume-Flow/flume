@@ -41,7 +41,7 @@ describe('manager detection', () => {
     });
 
     it('installs fnm via brew on darwin', () => {
-        const { appendMock } = setupMocks({ fnmInstalled: false, nvmInstalled: false });
+        setupMocks({ fnmInstalled: false, nvmInstalled: false });
         const execSpy = childProcess.execSync;
 
         unixSetup(baseArgs({ platform: 'darwin' }));
