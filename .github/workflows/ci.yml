@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      HUSKY: '0'
 
     steps:
       - name: Checkout
@@ -27,6 +29,8 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    env:
+      HUSKY: '0'
 
     steps:
       - name: Checkout
