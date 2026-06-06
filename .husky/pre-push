@@ -1,5 +1,12 @@
-yarn lint:fix
-yarn lint
+BASE=$(git merge-base HEAD origin/main 2>/dev/null || echo "")
+
+if [ -n "$BASE" ]; then
+    CHANGED=$(git diff --name-only "$BASE" HEAD | grep -E '\.(js|ts|mjs)$')
+    if [ -n "$CHANGED" ]; then
+        echo "$CHANGED" | xargs ./node_modules/.bin/eslint --fix
+        echo "$CHANGED" | xargs ./node_modules/.bin/eslint
+    fi
+fi
 
 if command -v gh >/dev/null 2>&1; then
     IS_DRAFT=$(gh pr view --json isDraft -q '.isDraft' 2>/dev/null) || true
@@ -7,7 +14,7 @@ if command -v gh >/dev/null 2>&1; then
         yarn test:coverage
     fi
 else
-    if ! yarn test:coverage 2>/dev/null; then
+    if ! yarn test:coverage; then
         echo ""
         echo "⚠️  Coverage is below thresholds. Install gh CLI to enforce this on every push."
         echo "   Run: node scripts/setup-gh.js"
