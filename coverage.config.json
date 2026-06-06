@@ -1,7 +1,7 @@
 {
-    "lines": 80,
-    "branches": 75,
-    "functions": 70,
+    "lines": 96,
+    "branches": 91,
+    "functions": 98,
     "gap": 2,
     "exclude": [
         "scripts/**/*.test.js",
