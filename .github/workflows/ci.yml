@@ -46,11 +46,11 @@ jobs:
 
       - name: Lint
         run: |
-          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q 'eslint.config'; then
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q 'eslint.config'; then
             echo "ESLint config changed — linting all files"
             yarn lint
           else
-            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(js|ts|mjs)$' | tr '\n' ' ')
+            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' | tr '\n' ' ')
             if [ -n "$CHANGED" ]; then
               echo "Linting changed files: $CHANGED"
               ./node_modules/.bin/eslint $CHANGED
@@ -92,7 +92,7 @@ jobs:
         id: cov
         if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
         run: |
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(js|ts|mjs)$' || true)
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' || true)
           COMMENT=$(echo "$CHANGED" | node scripts/coverage-comment.js)
           echo "comment<<EOF" >> $GITHUB_OUTPUT
           echo "$COMMENT" >> $GITHUB_OUTPUT
