@@ -26,8 +26,8 @@ function checkNode(required, actual, platform) {
 ❌ Wrong Node version: ${actual}
    This project requires Node ${required}.
 
-   Right now:     ${switchCmd}
-   If not installed: nvm install ${required}  (or: fnm install ${required})
+   Switch now:    ${switchCmd}
+   Install:       nvm install ${required}  (or: fnm install ${required})
 
 ${persistNote}
 `);
