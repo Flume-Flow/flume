@@ -10,8 +10,9 @@
     "dev": "node bin/dev.js",
     "clean": "rm -rf dist",
     "build": "yarn clean && yarn tsc -b",
-    "test": "cd .. && vitest run --project cli",
-    "test:watch": "cd .. && vitest --project cli",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
     "prepublishOnly": "cp ../LICENSE ./LICENSE",
     "postpublish": "rm ./LICENSE"
   },

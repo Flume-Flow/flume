@@ -3,6 +3,7 @@
   "private": true,
   "license": "MIT",
   "workspaces": [
+    "scripts",
     "cli"
   ],
   "scripts": {
@@ -13,12 +14,14 @@
     "build": "yarn workspaces run build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
     "coverage:update": "node scripts/update-coverage.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.9.2",
     "@vitest/coverage-v8": "^4.1.8",
+    "@vitest/ui": "^4.1.8",
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "husky": "^9.1.7",

@@ -11,13 +11,18 @@ yarn lint:fix         # ESLint with auto-fix
 yarn build            # compile all buildable workspaces
 yarn test             # run all tests (scripts/ + cli/) with vitest
 yarn test:coverage    # run all tests with coverage report
-yarn workspace @flume/cli build   # compile flume-cli TypeScript only
-yarn workspace @flume/cli dev     # run flume-cli in dev mode
+yarn test:ui          # open Vitest browser UI (all projects)
+yarn workspace @flume/cli build      # compile flume-cli TypeScript only
+yarn workspace @flume/cli dev        # run flume-cli in dev mode
+yarn workspace @flume/cli test       # cli tests only
+yarn workspace @flume/cli test:ui    # open Vitest browser UI (cli only)
+yarn workspace @flume/scripts test   # scripts tests only
+yarn workspace @flume/scripts test:ui # open Vitest browser UI (scripts only)
 ```
 
 Run tests for a single project or file:
 ```sh
-npx vitest run --project cli                      # CLI tests only
+npx vitest run --project cli                      # CLI tests only (from root)
 npx vitest run --project scripts                  # scripts tests only
 npx vitest run scripts/setup/unix-node.test.js   # single file
 ```
@@ -37,11 +42,12 @@ This is a Yarn workspaces monorepo. The root holds shared tooling; the CLI lives
 **Test files**: co-located with source (e.g. `unix-node.test.js` next to `unix-node.js`). File order: imports → `describe`/`it` blocks → test infrastructure (helpers, mocks, `afterEach`) at the bottom under a `// --- test infrastructure ---` comment.
 
 **Test framework**: vitest across the whole repo, using workspace mode.
-- `vitest.config.ts` — the single file that registers all test projects (`test.projects`) and holds coverage settings and thresholds. Add new packages here.
-- `scripts/*.test.js` — CJS files using vitest globals (`describe`, `it`, `expect`, `vi` — no imports needed, `globals: true` is set in `vitest.workspace.ts` for the `scripts` project).
+- `vitest.config.ts` — root config that registers all workspace packages as projects (`test.projects`) and holds global coverage settings and thresholds.
+- Each workspace package owns its own `vitest.config.ts` / `vitest.config.mjs` scoped to its own files.
+- `scripts/*.test.js` — CJS files using vitest globals (`describe`, `it`, `expect`, `vi` — no imports needed, `globals: true` is set in `scripts/vitest.config.mjs`).
 - `cli/src/**/*.test.ts` — TypeScript files with explicit vitest imports.
 
-When adding a new workspace package: add vitest to its devDeps, create its test files, and register it in `vitest.workspace.ts` with its include pattern. Also add its source paths to the `coverage.include` list in `vitest.config.ts`.
+When adding a new workspace package: create a `vitest.config.ts` inside it (scoped to that package's files), add its directory name to `workspaces` in root `package.json` (projects are derived from there automatically), and add its source paths to `include` and test file globs to `exclude` in `coverage.config.json`.
 
 **Mocking in scripts tests**: use `vi.spyOn(obj, 'method').mockImplementation(fn)` and `vi.restoreAllMocks()` in `afterEach`.
 

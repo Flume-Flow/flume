@@ -3,11 +3,16 @@
     "branches": 92,
     "functions": 88,
     "gap": 2,
+    "include": [
+        "scripts/**/*.js",
+        "cli/src/**/*.ts"
+    ],
     "exclude": [
         "scripts/**/*.test.js",
         "scripts/setup-gh.js",
         "scripts/setup-node.js",
         "scripts/update-coverage.js",
-        "scripts/coverage-comment.js"
+        "scripts/coverage-comment.js",
+        "cli/src/**/*.test.ts"
     ]
 }
