@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      HUSKY: '0'
 
     steps:
       - name: Checkout
@@ -29,8 +27,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    env:
-      HUSKY: '0'
 
     steps:
       - name: Checkout
@@ -45,12 +41,32 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.base_ref }} --depth=1
+
       - name: Lint
-        run: yarn lint
+        run: |
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q 'eslint.config'; then
+            echo "ESLint config changed — linting all files"
+            yarn lint
+          else
+            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' | tr '\n' ' ')
+            if [ -n "$CHANGED" ]; then
+              echo "Linting changed files: $CHANGED"
+              ./node_modules/.bin/eslint $CHANGED
+            else
+              echo "No JS/TS files changed — skipping lint"
+            fi
+          fi
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     if: ${{ !github.event.pull_request.draft }}
+    permissions:
+      pull-requests: write
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
 
     steps:
       - name: Checkout
@@ -67,3 +83,24 @@ jobs:
 
       - name: Run tests with coverage
         run: yarn test:coverage
+
+      - name: Fetch base branch for diff
+        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        run: git fetch origin ${{ github.base_ref }} --depth=1
+
+      - name: Generate coverage comment
+        id: cov
+        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        run: |
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' || true)
+          COMMENT=$(echo "$CHANGED" | node scripts/coverage-comment.js)
+          echo "comment<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMENT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Post coverage comment
+        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: coverage
+          message: ${{ steps.cov.outputs.comment }}

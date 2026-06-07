@@ -8,6 +8,7 @@
         "scripts/setup-gh.js",
         "scripts/setup-node.js",
         "scripts/test-coverage.js",
-        "scripts/update-coverage.js"
+        "scripts/update-coverage.js",
+        "scripts/coverage-comment.js"
     ]
 }
