@@ -93,13 +93,18 @@ jobs:
         if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
         run: |
           CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' || true)
-          COMMENT=$(echo "$CHANGED" | node scripts/coverage-comment.js)
-          echo "comment<<EOF" >> $GITHUB_OUTPUT
-          echo "$COMMENT" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          if [ -z "$CHANGED" ]; then
+            echo "has_js=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_js=true" >> $GITHUB_OUTPUT
+            COMMENT=$(echo "$CHANGED" | node scripts/coverage-comment.js)
+            echo "comment<<EOF" >> $GITHUB_OUTPUT
+            echo "$COMMENT" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
 
       - name: Post coverage comment
-        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && steps.cov.outputs.has_js == 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: coverage
