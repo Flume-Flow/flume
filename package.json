@@ -2,6 +2,7 @@
   "name": "flume",
   "private": true,
   "license": "MIT",
+  "packageManager": "yarn@4.16.0",
   "workspaces": [
     "scripts",
     "cli"
