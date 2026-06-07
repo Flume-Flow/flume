@@ -1,8 +1,8 @@
 {
-    "lines": 94,
+    "lines": 95,
     "branches": 92,
-    "functions": 88,
-    "statements": 92,
+    "functions": 89,
+    "statements": 93,
     "gap": 2,
     "include": [
         "scripts/**/*.js",
