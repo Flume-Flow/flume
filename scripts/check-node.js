@@ -39,4 +39,15 @@ if (require.main === module) {
     checkNode(required, process.versions.node, process.platform);
 }
 
+function suggestInstallCmd(required, platform) {
+    if (platform === 'win32') {
+        return `fnm install ${required}`;
+    }
+    if (process.env.FNM_DIR) {
+        return `fnm install ${required}`;
+    }
+    return `nvm install ${required}`;
+}
+
 module.exports = checkNode;
+module.exports.suggestInstallCmd = suggestInstallCmd;
