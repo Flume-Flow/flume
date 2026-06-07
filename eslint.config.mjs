@@ -19,6 +19,12 @@ export default tseslint.config(
     },
   },
   {
+    files: ['scripts/**/*.test.js', 'cli/src/**/*.test.ts'],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.vitest },
+    },
+  },
+  {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
