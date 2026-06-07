@@ -5,5 +5,5 @@ fi
 
 STAGED=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(js|ts|mjs)$' || true)
 if [ -n "$STAGED" ]; then
-  echo "$STAGED" | xargs ./node_modules/.bin/eslint
+  echo "$STAGED" | xargs yarn eslint
 fi

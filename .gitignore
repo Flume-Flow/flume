@@ -361,7 +361,11 @@ $RECYCLE.BIN/
 
 # not using Zero-installs — keep .yarn/cache ignored
 # !.yarn/cache
-.pnp.*
+
+# PnP runtime — track .pnp.cjs / .pnp.loader.mjs so Node can find
+# modules without a node_modules tree.
+!.pnp.cjs
+!.pnp.loader.mjs
 
 ### VisualStudio ###
 ## Ignore Visual Studio temporary files, build results, and

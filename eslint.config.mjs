@@ -4,7 +4,7 @@ import globals from 'globals';
 
 export default tseslint.config(
   {
-    ignores: ['**/dist/**', '**/node_modules/**'],
+    ignores: ['**/dist/**', '**/node_modules/**', '.pnp.cjs', '.pnp.loader.mjs', '.yarn/**'],
   },
   {
     files: ['**/*.js'],

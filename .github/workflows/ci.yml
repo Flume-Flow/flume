@@ -59,7 +59,7 @@ jobs:
             CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' | tr '\n' ' ')
             if [ -n "$CHANGED" ]; then
               echo "Linting changed files: $CHANGED"
-              ./node_modules/.bin/eslint $CHANGED
+              yarn eslint $CHANGED
             else
               echo "No JS/TS files changed — skipping lint"
             fi
