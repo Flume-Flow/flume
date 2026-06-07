@@ -7,15 +7,26 @@ export default tseslint.config(
     ignores: ['**/dist/**', '**/node_modules/**'],
   },
   {
-    files: ['scripts/**/*.js'],
+    files: ['**/*.js'],
     extends: [eslint.configs.recommended],
     languageOptions: {
-      sourceType: 'commonjs',
       globals: globals.node,
     },
     rules: {
       indent: ['error', 4],
       'eol-last': ['error', 'always'],
+    },
+  },
+  {
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+    },
+  },
+  {
+    files: ['**/*.test.{js,ts}'],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.vitest },
     },
   },
   {

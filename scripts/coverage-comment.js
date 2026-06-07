@@ -13,7 +13,7 @@ rl.on('line', line => { if (line.trim()) changedFiles.push(line.trim()); });
 
 rl.on('close', () => {
     const { total } = summary;
-    const { lines: lT, branches: bT, functions: fT } = config;
+    const { lines: lT, branches: bT, functions: fT, statements: sT } = config;
 
     const fmt = (pct, threshold) => {
         const diff = (pct - threshold).toFixed(2);
@@ -26,6 +26,7 @@ rl.on('close', () => {
     out += `| Metric | Value | vs threshold |\n`;
     out += `|--------|-------|--------------|\n`;
     out += `| Lines | ${pct(total.lines.pct)} | ${fmt(total.lines.pct, lT)} |\n`;
+    out += `| Statements | ${pct(total.statements.pct)} | ${fmt(total.statements.pct, sT)} |\n`;
     out += `| Branches | ${pct(total.branches.pct)} | ${fmt(total.branches.pct, bT)} |\n`;
     out += `| Functions | ${pct(total.functions.pct)} | ${fmt(total.functions.pct, fT)} |\n`;
 

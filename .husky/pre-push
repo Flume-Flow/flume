@@ -1,12 +1,13 @@
 BASE=$(git merge-base HEAD origin/main 2>/dev/null || echo "")
 
 if [ -n "$BASE" ]; then
-    CHANGED=$(git diff --name-only "$BASE" HEAD | grep -E '\.(js|ts|mjs)$' || true)
+    CHANGED=$(git diff --name-only --diff-filter=d "$BASE" HEAD | grep -E '\.(js|ts|mjs)$' || true)
     if [ -n "$CHANGED" ]; then
-        echo "$CHANGED" | xargs ./node_modules/.bin/eslint --fix
         echo "$CHANGED" | xargs ./node_modules/.bin/eslint
     fi
 fi
+
+yarn build
 
 if command -v gh >/dev/null 2>&1; then
     IS_DRAFT=$(gh pr view --json isDraft -q '.isDraft' 2>/dev/null) || true

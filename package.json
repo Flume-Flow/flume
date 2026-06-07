@@ -2,7 +2,9 @@
   "name": "flume",
   "private": true,
   "license": "MIT",
+  "packageManager": "yarn@4.16.0",
   "workspaces": [
+    "scripts",
     "cli"
   ],
   "scripts": {
@@ -10,17 +12,21 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
-    "test": "node --test 'scripts/**/*.test.js'",
-    "test:coverage": "node scripts/test-coverage.js",
+    "build": "yarn workspaces foreach -A run build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
     "coverage:update": "node scripts/update-coverage.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.9.2",
-    "c8": "^11.0.0",
+    "@vitest/coverage-v8": "^4.1.8",
+    "@vitest/ui": "^4.1.8",
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "husky": "^9.1.7",
-    "typescript-eslint": "^8.60.1"
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^4.1.8"
   }
 }
