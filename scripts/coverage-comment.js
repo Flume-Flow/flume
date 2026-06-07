@@ -15,14 +15,19 @@ rl.on('close', () => {
     const { total } = summary;
     const { lines: lT, branches: bT, functions: fT } = config;
 
-    const mark = (pct, threshold) => pct >= threshold ? '✅' : '❌';
+    const fmt = (pct, threshold) => {
+        const diff = (pct - threshold).toFixed(2);
+        return pct >= threshold ? `✅ +${diff}%` : `❌ ${diff}%`;
+    };
     const pct = (val) => `${val}%`;
 
     // Overall table
     let out = `## Coverage\n\n`;
-    out += `| % Stmts | % Branch | % Funcs | % Lines |\n`;
-    out += `|---------|----------|---------|--------|\n`;
-    out += `| ${pct(total.statements.pct)} | ${pct(total.branches.pct)} ${mark(total.branches.pct, bT)} | ${pct(total.functions.pct)} ${mark(total.functions.pct, fT)} | ${pct(total.lines.pct)} ${mark(total.lines.pct, lT)} |\n`;
+    out += `| Metric | Value | vs threshold |\n`;
+    out += `|--------|-------|--------------|\n`;
+    out += `| Lines | ${pct(total.lines.pct)} | ${fmt(total.lines.pct, lT)} |\n`;
+    out += `| Branches | ${pct(total.branches.pct)} | ${fmt(total.branches.pct, bT)} |\n`;
+    out += `| Functions | ${pct(total.functions.pct)} | ${fmt(total.functions.pct, fT)} |\n`;
 
     // Per-file table for changed files
     const cwd = process.cwd();
