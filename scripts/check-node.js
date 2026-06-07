@@ -23,11 +23,10 @@ function checkNode(required, actual, platform) {
     }
 
     console.error(`
-❌ Wrong Node version: ${actual}
-   This project requires Node ${required}.
+❌ Wrong Node version: ${actual} (requires ${required})
 
-   Right now:     ${switchCmd}
-   If not installed: nvm install ${required}  (or: fnm install ${required})
+   Switch now:    ${switchCmd}
+   Install:       nvm install ${required}  (or: fnm install ${required})
 
 ${persistNote}
 `);
