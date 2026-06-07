@@ -35,8 +35,8 @@ Coverage thresholds, includes, and excludes are all defined in `coverage.config.
 
 1. Add `vitest` to the package's `devDependencies` and create a `vitest.config.ts` scoped to its own files.
 2. Add the package directory to `workspaces` in root `package.json` — it is automatically picked up as a vitest project.
-3. Add the package's source paths to `include` and test file globs to `exclude` in `coverage.config.json`.
-4. If the package is buildable, add a `build` script to its `package.json` — `yarn build` at the root runs all of them.
+3. Follow the convention `<package>/src/**/*.ts` for source files and `**/*.test.{js,ts}` for tests — both are already covered by the root `coverage.config.json` globs, so no edits are needed. Only add to `exclude` if the package contains source files that should not be measured (e.g. one-off setup scripts).
+4. If the package is buildable, add a `build` script to its `package.json` — `yarn build` at the root iterates all workspaces and skips the ones without a `build` script.
 
 ## Conventions
 

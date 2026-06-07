@@ -2,7 +2,7 @@ import { createRequire } from 'module'
 import { defineConfig } from 'vitest/config'
 
 const require = createRequire(import.meta.url)
-const { lines, branches, functions, include, exclude } = require('./coverage.config.json')
+const { lines, branches, functions, statements, include, exclude } = require('./coverage.config.json')
 const { workspaces } = require('./package.json')
 
 export default defineConfig({
@@ -14,7 +14,7 @@ export default defineConfig({
             exclude,
             reporter: ['text', 'json-summary', 'json'],
             reportsDirectory: './coverage',
-            thresholds: { lines, branches, functions },
+            thresholds: { lines, branches, functions, statements },
         },
     },
 })

@@ -7,10 +7,9 @@ export default tseslint.config(
     ignores: ['**/dist/**', '**/node_modules/**'],
   },
   {
-    files: ['scripts/**/*.js'],
+    files: ['**/*.js'],
     extends: [eslint.configs.recommended],
     languageOptions: {
-      sourceType: 'commonjs',
       globals: globals.node,
     },
     rules: {
@@ -19,7 +18,13 @@ export default tseslint.config(
     },
   },
   {
-    files: ['scripts/**/*.test.js', 'cli/src/**/*.test.ts'],
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+    },
+  },
+  {
+    files: ['**/*.test.{js,ts}'],
     languageOptions: {
       globals: { ...globals.node, ...globals.vitest },
     },

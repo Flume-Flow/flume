@@ -47,7 +47,7 @@ This is a Yarn v4 workspaces monorepo (Yarn version pinned via the `packageManag
 - `scripts/*.test.js` — CJS files using vitest globals (`describe`, `it`, `expect`, `vi` — no imports needed, `globals: true` is set in `scripts/vitest.config.mjs`).
 - `cli/src/**/*.test.ts` — TypeScript files with explicit vitest imports.
 
-When adding a new workspace package: create a `vitest.config.ts` inside it (scoped to that package's files), add its directory name to `workspaces` in root `package.json` (projects are derived from there automatically), and add its source paths to `include` and test file globs to `exclude` in `coverage.config.json`.
+When adding a new workspace package: create a `vitest.config.ts` inside it (scoped to that package's files) and add its directory name to `workspaces` in root `package.json` (projects are derived from there automatically). The root `coverage.config.json` already includes `*/src/**/*.ts` and `scripts/**/*.js` and excludes `**/*.test.{js,ts}`, so a conventional package layout needs no changes there — only add to `exclude` if the package has source files that should not be measured.
 
 **Mocking in scripts tests**: use `vi.spyOn(obj, 'method').mockImplementation(fn)` and `vi.restoreAllMocks()` in `afterEach`.
 
