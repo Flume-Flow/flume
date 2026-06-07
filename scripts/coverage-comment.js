@@ -34,14 +34,14 @@ rl.on('close', () => {
     const touched = changedFiles
         .map(f => ({ rel: f, abs: path.resolve(cwd, f) }))
         .filter(({ abs }) => summary[abs])
-        .map(({ rel, abs }) => ({ rel, data: summary[abs], finalData: final[abs] }));
+        .map(({ rel, abs }) => ({ rel, data: summary[abs], uncovered: formatLineRanges(getUncoveredLines(final[abs] || {})) }))
+        .filter(({ uncovered }) => uncovered.length > 0);
 
     if (touched.length > 0) {
         out += `\n**Changed files**\n\n`;
         out += `| File | % Stmts | % Branch | % Funcs | % Lines | Uncovered Lines |\n`;
         out += `|------|---------|----------|---------|---------|----------------|\n`;
-        for (const { rel, data, finalData } of touched) {
-            const uncovered = finalData ? formatLineRanges(getUncoveredLines(finalData)) : '';
+        for (const { rel, data, uncovered } of touched) {
             out += `| \`${rel}\` | ${pct(data.statements.pct)} | ${pct(data.branches.pct)} | ${pct(data.functions.pct)} | ${pct(data.lines.pct)} | ${uncovered} |\n`;
         }
     }
