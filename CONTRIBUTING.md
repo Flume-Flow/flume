@@ -2,13 +2,15 @@
 
 ## Setup
 
-Requires Node 24 (pinned in `.nvmrc`) and Yarn v4 (pinned via the `packageManager` field in `package.json` — [Corepack](https://nodejs.org/api/corepack.html) auto-provisions it; if `yarn` is missing, run `corepack enable` once). If you don't have auto-switching via nvm/fnm:
+Requires Node 24 (pinned in `.nvmrc`) and Yarn v4 (pinned via the `packageManager` field in `package.json` — [Corepack](https://nodejs.org/api/corepack.html) provisions it on demand). For a fresh machine:
 
 ```sh
-node scripts/setup-node.js
-corepack enable        # one-time, enables Yarn v4 via the packageManager field
+node scripts/setup-node.js   # installs/uses fnm + Node 24, sets up auto-switch
+node scripts/setup-yarn.js   # one-time `corepack enable` so yarn maps to v4 here
 yarn install
 ```
+
+You don't need a global yarn install — inside this project, Corepack reads the `packageManager` field and runs the pinned Yarn v4 automatically. Outside the project, whatever global default you had still applies.
 
 [GitHub CLI](https://cli.github.com) (`gh`) is optional but recommended. The pre-push hook uses it to detect whether your PR is a draft and skip coverage enforcement while you're still working. To install:
 

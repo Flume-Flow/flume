@@ -12,6 +12,7 @@
         "**/*.test.{js,ts}",
         "scripts/setup-gh.js",
         "scripts/setup-node.js",
+        "scripts/setup-yarn.js",
         "scripts/update-coverage.js",
         "scripts/coverage-comment.js"
     ]
