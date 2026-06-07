@@ -85,12 +85,12 @@ jobs:
         run: yarn test:coverage
 
       - name: Fetch base branch for diff
-        if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
         run: git fetch origin ${{ github.base_ref }} --depth=1
 
       - name: Generate coverage comment
         id: cov
-        if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
         run: |
           CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' || true)
           COMMENT=$(echo "$CHANGED" | node scripts/coverage-comment.js)
@@ -99,7 +99,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Post coverage comment
-        if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: coverage
