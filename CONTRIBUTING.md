@@ -2,10 +2,11 @@
 
 ## Setup
 
-Requires Node 24 (pinned in `.nvmrc`). If you don't have auto-switching via nvm/fnm:
+Requires Node 24 (pinned in `.nvmrc`) and Yarn v4 (pinned via the `packageManager` field in `package.json` — [Corepack](https://nodejs.org/api/corepack.html) auto-provisions it; if `yarn` is missing, run `corepack enable` once). If you don't have auto-switching via nvm/fnm:
 
 ```sh
 node scripts/setup-node.js
+corepack enable        # one-time, enables Yarn v4 via the packageManager field
 yarn install
 ```
 

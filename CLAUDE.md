@@ -29,7 +29,7 @@ npx vitest run scripts/setup/unix-node.test.js   # single file
 
 ## Architecture
 
-This is a Yarn workspaces monorepo. The root holds shared tooling; the CLI lives in `cli/`.
+This is a Yarn v4 workspaces monorepo (Yarn version pinned via the `packageManager` field in root `package.json`; Corepack auto-provisions it). The root holds shared tooling; the CLI lives in `cli/`.
 
 **Root `scripts/`** — Node 24 CJS utility scripts, no npm dependencies allowed. Run directly by npm lifecycle hooks (`preinstall`) and manually by developers. `check-node.js` enforces the Node version on every `yarn install`. `setup-node.js` is a one-time developer setup that installs a version manager and configures shell auto-switching.
 
