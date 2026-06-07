@@ -1,0 +1,65 @@
+name: Revisit ADR decisions
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # 1st of each month, 00:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-pnp-thresholds:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Evaluate ADR 0001 thresholds
+        id: check
+        run: node scripts/check-decisions.js
+
+      - name: Open revisit issue if triggered
+        if: steps.check.outputs.triggered == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TITLE="Revisit ADR 0001: stay on node-modules vs PnP"
+
+          EXISTING=$(gh issue list \
+            --search "\"$TITLE\" in:title" \
+            --state open \
+            --json number \
+            --jq '.[0].number // ""')
+
+          if [ -n "$EXISTING" ]; then
+            echo "Tracking issue already open: #$EXISTING — nothing to do."
+            exit 0
+          fi
+
+          gh issue create \
+            --title "$TITLE" \
+            --label "decision-revisit" \
+            --body "$(cat <<EOF
+          Dependency growth has crossed a threshold set in [ADR 0001](../blob/main/docs/decisions/0001-stay-on-node-modules.md).
+
+          | Metric | Current | Threshold |
+          |--------|---------|-----------|
+          | Direct deps | ${{ steps.check.outputs.direct }} | ${{ steps.check.outputs.direct_threshold }} |
+          | Resolved deps in \`yarn.lock\` | ${{ steps.check.outputs.resolved }} | ${{ steps.check.outputs.resolved_threshold }} |
+
+          Time to re-evaluate whether to switch from \`nodeLinker: node-modules\` to Plug'n'Play.
+
+          - Original exploration: #19 (\`experiment/yarn-pnp\` branch — still on GitHub)
+          - Decision context: [\`docs/decisions/0001-stay-on-node-modules.md\`](../blob/main/docs/decisions/0001-stay-on-node-modules.md)
+
+          When the decision is made, update the ADR (set new status + date + rationale) and close this issue. If the answer is "still no," close with a comment and the next monthly run will reopen it if the thresholds stay crossed — bump them in \`scripts/check-decisions.js\` if you want the gap wider.
+          EOF
+          )"
