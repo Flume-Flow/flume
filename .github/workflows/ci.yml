@@ -22,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Build @flume/cli
-        run: yarn workspace @flume/cli build
+      - name: Build
+        run: yarn build
 
   lint:
     runs-on: ubuntu-latest

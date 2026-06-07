@@ -2,20 +2,14 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const configPath = path.join(__dirname, '..', 'coverage.config.json');
+const root = path.join(__dirname, '..');
+const configPath = path.join(root, 'coverage.config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const { lines, branches, functions, gap, exclude } = config;
+const { lines, branches, functions, gap } = config;
 
-const excludeFlags = exclude.map(p => `--exclude='${p}'`).join(' ');
+execSync('yarn test:coverage', { stdio: 'inherit', cwd: root });
 
-execSync(
-    `c8 --all --reporter=json-summary --reporter=text ` +
-    `--include='scripts/**/*.js' ${excludeFlags} ` +
-    `node --test 'scripts/**/*.test.js'`,
-    { stdio: 'inherit' }
-);
-
-const summaryPath = path.join(__dirname, '..', 'coverage', 'coverage-summary.json');
+const summaryPath = path.join(root, 'coverage', 'coverage-summary.json');
 const { total } = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
 
 const ratchet = (current, actual) => Math.max(current, Math.floor(actual - gap));

@@ -1,27 +1,25 @@
-const { describe, it, mock, afterEach } = require('node:test');
-const assert = require('node:assert/strict');
 const windowsGhSetup = require('./windows-gh');
 
 describe('windowsGhSetup', () => {
-    afterEach(() => mock.restoreAll());
+    afterEach(() => vi.restoreAllMocks());
 
     it('logs instructions containing winget and gh auth login', () => {
-        mock.method(process, 'exit', () => {});
-        const log = mock.method(console, 'log', () => {});
+        vi.spyOn(process, 'exit').mockImplementation(() => {});
+        const log = vi.spyOn(console, 'log').mockImplementation(() => {});
 
         windowsGhSetup();
 
-        const msg = log.mock.calls[0].arguments[0];
-        assert.ok(msg.includes('winget install GitHub.cli'));
-        assert.ok(msg.includes('gh auth login'));
+        const msg = log.mock.calls[0][0];
+        expect(msg).toContain('winget install GitHub.cli');
+        expect(msg).toContain('gh auth login');
     });
 
     it('calls process.exit(0)', () => {
-        const exit = mock.method(process, 'exit', () => {});
-        mock.method(console, 'log', () => {});
+        const exit = vi.spyOn(process, 'exit').mockImplementation(() => {});
+        vi.spyOn(console, 'log').mockImplementation(() => {});
 
         windowsGhSetup();
 
-        assert.equal(exit.mock.calls[0].arguments[0], 0);
+        expect(exit).toHaveBeenCalledWith(0);
     });
 });
