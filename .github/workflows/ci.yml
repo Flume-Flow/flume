@@ -65,7 +65,7 @@ jobs:
             echo "ESLint config changed — linting all files"
             pnpm lint
           else
-            CHANGED=$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' | tr '\n' ' ')
+            CHANGED=$(node scripts/changed-files.js --base "origin/${{ github.base_ref }}" | tr '\n' ' ')
             if [ -n "$CHANGED" ]; then
               echo "Linting changed files: $CHANGED"
               ./node_modules/.bin/eslint $CHANGED
@@ -115,7 +115,7 @@ jobs:
         id: cov
         if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
         run: |
-          CHANGED=$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}..HEAD | grep -E '\.(js|ts|mjs)$' || true)
+          CHANGED=$(node scripts/changed-files.js --base "origin/${{ github.base_ref }}")
           if [ -z "$CHANGED" ]; then
             echo "has_js=false" >> $GITHUB_OUTPUT
           else

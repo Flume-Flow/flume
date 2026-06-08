@@ -3,7 +3,7 @@ if git diff --cached --name-only | grep -q 'package\.json'; then
   git add pnpm-lock.yaml
 fi
 
-STAGED=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(js|ts|mjs)$' || true)
+STAGED=$(node scripts/changed-files.js --staged)
 if [ -n "$STAGED" ]; then
   echo "$STAGED" | xargs ./node_modules/.bin/eslint
 fi
