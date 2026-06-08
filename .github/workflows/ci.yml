@@ -99,8 +99,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run tests with coverage
-        run: pnpm test:coverage
+      - name: Run tests (with coverage on ubuntu)
+        run: |
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            pnpm test:coverage
+          else
+            pnpm test
+          fi
 
       - name: Fetch base branch for diff
         if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
