@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const childProcess = require('child_process');
+const fs = require('node:fs');
+const path = require('node:path');
+const childProcess = require('node:child_process');
 
 const hooks = {
     fnm: {
-        zsh:  'eval "$(fnm env --use-on-cd)"',
+        zsh: 'eval "$(fnm env --use-on-cd)"',
         bash: 'eval "$(fnm env --use-on-cd)"',
         fish: 'fnm env --use-on-cd | source',
     },
@@ -21,18 +21,22 @@ const hooks = {
             'add-zsh-hook chpwd load-nvmrc',
             'load-nvmrc',
         ].join('\n'),
-        bash: [
-            'cdnvm() { builtin cd "$@" && [ -f .nvmrc ] && nvm use; }',
-            'alias cd=cdnvm',
-        ].join('\n'),
+        bash: ['cdnvm() { builtin cd "$@" && [ -f .nvmrc ] && nvm use; }', 'alias cd=cdnvm'].join('\n'),
         fish: '# nvm does not support fish — consider switching to fnm',
     },
 };
 
 function installFnm(platform) {
-    const hasBrew = platform === 'darwin' && (() => {
-        try { childProcess.execSync('brew --version', { stdio: 'ignore' }); return true; } catch { return false; }
-    })();
+    const hasBrew =
+        platform === 'darwin' &&
+        (() => {
+            try {
+                childProcess.execSync('brew --version', { stdio: 'ignore' });
+                return true;
+            } catch {
+                return false;
+            }
+        })();
 
     if (hasBrew) {
         childProcess.execSync('brew install fnm', { stdio: 'inherit' });
@@ -41,13 +45,15 @@ function installFnm(platform) {
     }
 }
 
-module.exports = function ({ requiredNode, platform, shell, home }) {
+module.exports = ({ requiredNode, platform, shell, home }) => {
     // Detect version manager
     let manager = null;
     try {
         childProcess.execSync('fnm --version', { stdio: 'ignore' });
         manager = 'fnm';
-    } catch { /* fnm not installed */ }
+    } catch {
+        /* fnm not installed */
+    }
 
     if (!manager && fs.existsSync(path.join(home, '.nvm', 'nvm.sh'))) {
         manager = 'nvm';
@@ -67,7 +73,7 @@ module.exports = function ({ requiredNode, platform, shell, home }) {
 
     // Resolve shell config file
     const configs = {
-        zsh:  path.join(home, '.zshrc'),
+        zsh: path.join(home, '.zshrc'),
         bash: path.join(home, platform === 'darwin' ? '.bash_profile' : '.bashrc'),
         fish: path.join(home, '.config', 'fish', 'config.fish'),
     };
@@ -87,7 +93,10 @@ module.exports = function ({ requiredNode, platform, shell, home }) {
     if (existing.includes(marker)) {
         console.log(`✅ Auto-switching already configured in ${configFile}`);
     } else {
-        fs.appendFileSync(configFile, `\n# Auto-switch Node version based on .nvmrc (added by setup-node.js)\n${hook}\n`);
+        fs.appendFileSync(
+            configFile,
+            `\n# Auto-switch Node version based on .nvmrc (added by setup-node.js)\n${hook}\n`,
+        );
         console.log(`✅ Auto-switching configured in ${configFile}`);
     }
 

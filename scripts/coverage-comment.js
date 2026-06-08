@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+const fs = require('node:fs');
+const path = require('node:path');
+const readline = require('node:readline');
 
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'coverage.config.json'), 'utf8'));
 const summary = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'coverage', 'coverage-summary.json'), 'utf8'));
@@ -9,7 +9,9 @@ const final = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'coverage', 
 const rl = readline.createInterface({ input: process.stdin, terminal: false });
 const changedFiles = [];
 
-rl.on('line', line => { if (line.trim()) changedFiles.push(line.trim()); });
+rl.on('line', (line) => {
+    if (line.trim()) changedFiles.push(line.trim());
+});
 
 rl.on('close', () => {
     const { total } = summary;
@@ -33,9 +35,13 @@ rl.on('close', () => {
     // Per-file table for changed files
     const cwd = process.cwd();
     const touched = changedFiles
-        .map(f => ({ rel: f, abs: path.resolve(cwd, f) }))
+        .map((f) => ({ rel: f, abs: path.resolve(cwd, f) }))
         .filter(({ abs }) => summary[abs])
-        .map(({ rel, abs }) => ({ rel, data: summary[abs], uncovered: formatLineRanges(getUncoveredLines(final[abs] || {})) }))
+        .map(({ rel, abs }) => ({
+            rel,
+            data: summary[abs],
+            uncovered: formatLineRanges(getUncoveredLines(final[abs] || {})),
+        }))
         .filter(({ uncovered }) => uncovered.length > 0);
 
     if (touched.length > 0) {
@@ -49,10 +55,7 @@ rl.on('close', () => {
 
     // Point contributors at the testing guide when any metric is below threshold.
     const belowThreshold =
-        total.lines.pct < lT ||
-        total.statements.pct < sT ||
-        total.branches.pct < bT ||
-        total.functions.pct < fT;
+        total.lines.pct < lT || total.statements.pct < sT || total.branches.pct < bT || total.functions.pct < fT;
 
     if (belowThreshold) {
         out += `\n> ⚠️ Coverage is below threshold. See [Tests](https://github.com/Flume-Flow/flume/blob/main/CONTRIBUTING.md#tests) in CONTRIBUTING for how coverage is enforced.\n`;
@@ -81,7 +84,8 @@ function getUncoveredLines(fileData) {
 function formatLineRanges(lines) {
     if (!lines.length) return '';
     const ranges = [];
-    let start = lines[0], end = lines[0];
+    let start = lines[0],
+        end = lines[0];
     for (let i = 1; i < lines.length; i++) {
         if (lines[i] === end + 1) {
             end = lines[i];

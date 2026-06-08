@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Lower bound: oldest still-maintained LTS major accepted for development.
 // Upper bound comes from .nvmrc (Node 26 had build issues; 24 is the pinned ceiling).

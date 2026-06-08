@@ -1,4 +1,4 @@
-const { execFileSync } = require('child_process');
+const { execFileSync } = require('node:child_process');
 
 const EXT_DEFAULT = ['js', 'ts', 'mjs'];
 
@@ -8,7 +8,11 @@ function parseArgs(argv) {
         const a = argv[i];
         if (a === '--staged') args.staged = true;
         else if (a === '--base') args.base = argv[++i];
-        else if (a === '--ext') args.ext = argv[++i].split(',').map(s => s.trim()).filter(Boolean);
+        else if (a === '--ext')
+            args.ext = argv[++i]
+                .split(',')
+                .map((s) => s.trim())
+                .filter(Boolean);
     }
     return args;
 }
@@ -18,7 +22,9 @@ function listChanged({ staged, base, ext }, runGit) {
     const gitArgs = staged
         ? ['diff', '--cached', '--name-only', '--diff-filter=d']
         : ['diff', '--name-only', '--diff-filter=d', `${base}..HEAD`];
-    return runGit(gitArgs).split('\n').filter(f => f && extPattern.test(f));
+    return runGit(gitArgs)
+        .split('\n')
+        .filter((f) => f && extPattern.test(f));
 }
 
 /* v8 ignore start */

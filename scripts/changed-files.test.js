@@ -53,10 +53,7 @@ describe('listChanged', () => {
 
     it('filters files by extension', () => {
         const runGit = () => ['src/a.ts', 'README.md', 'src/b.js', 'cli/c.mjs', 'd.txt'].join('\n');
-        const result = listChanged(
-            { staged: false, base: 'origin/main', ext: ['js', 'ts', 'mjs'] },
-            runGit,
-        );
+        const result = listChanged({ staged: false, base: 'origin/main', ext: ['js', 'ts', 'mjs'] }, runGit);
         expect(result).toEqual(['src/a.ts', 'src/b.js', 'cli/c.mjs']);
     });
 
@@ -67,7 +64,6 @@ describe('listChanged', () => {
 
     it('ignores empty lines from git output', () => {
         const runGit = () => 'a.ts\n\n\nb.ts\n';
-        expect(listChanged({ staged: false, base: 'origin/main', ext: ['ts'] }, runGit))
-            .toEqual(['a.ts', 'b.ts']);
+        expect(listChanged({ staged: false, base: 'origin/main', ext: ['ts'] }, runGit)).toEqual(['a.ts', 'b.ts']);
     });
 });

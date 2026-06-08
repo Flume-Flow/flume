@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = () => {
     console.log(`
 Windows detected. Enable Corepack to provision pnpm:
 

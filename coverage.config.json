@@ -1,19 +1,16 @@
 {
-    "lines": 95,
-    "branches": 92,
-    "functions": 89,
-    "statements": 93,
-    "gap": 2,
-    "include": [
-        "scripts/**/*.js",
-        "*/src/**/*.{ts,js}"
-    ],
-    "exclude": [
-        "**/*.test.{js,ts}",
-        "scripts/setup-gh.js",
-        "scripts/setup-node.js",
-        "scripts/setup-pnpm.js",
-        "scripts/update-coverage.js",
-        "scripts/coverage-comment.js"
-    ]
+  "lines": 95,
+  "branches": 92,
+  "functions": 89,
+  "statements": 93,
+  "gap": 2,
+  "include": ["scripts/**/*.js", "*/src/**/*.{ts,js}"],
+  "exclude": [
+    "**/*.test.{js,ts}",
+    "scripts/setup-gh.js",
+    "scripts/setup-node.js",
+    "scripts/setup-pnpm.js",
+    "scripts/update-coverage.js",
+    "scripts/coverage-comment.js"
+  ]
 }

@@ -1,6 +1,6 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require('node:child_process');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const root = path.join(__dirname, '..');
 const configPath = path.join(root, 'coverage.config.json');
@@ -29,9 +29,11 @@ const changed =
     updated.statements !== statements;
 
 if (!changed) {
-    console.log(`\nThresholds unchanged (gap: ${gap}%): lines ${lines}%, branches ${branches}%, functions ${functions}%, statements ${statements}%`);
+    console.log(
+        `\nThresholds unchanged (gap: ${gap}%): lines ${lines}%, branches ${branches}%, functions ${functions}%, statements ${statements}%`,
+    );
 } else {
-    fs.writeFileSync(configPath, JSON.stringify(updated, null, 4) + '\n');
+    fs.writeFileSync(configPath, `${JSON.stringify(updated, null, 4)}\n`);
     console.log(`\nUpdated thresholds (gap: ${gap}%):`);
     if (updated.lines !== lines)
         console.log(`  lines:      ${lines}% → ${updated.lines}%  (actual: ${total.lines.pct}%)`);
