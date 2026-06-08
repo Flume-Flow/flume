@@ -61,14 +61,14 @@ jobs:
 
       - name: Lint
         run: |
-          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q 'eslint.config'; then
-            echo "ESLint config changed — linting all files"
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q 'biome.json'; then
+            echo "Biome config changed — linting all files"
             pnpm lint
           else
             CHANGED=$(node scripts/changed-files.js --base "origin/${{ github.base_ref }}" | tr '\n' ' ')
             if [ -n "$CHANGED" ]; then
               echo "Linting changed files: $CHANGED"
-              ./node_modules/.bin/eslint $CHANGED
+              ./node_modules/.bin/biome check $CHANGED
             else
               echo "No JS/TS files changed — skipping lint"
             fi

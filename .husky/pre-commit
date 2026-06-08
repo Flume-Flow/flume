@@ -9,5 +9,5 @@ fi
 
 STAGED=$(node scripts/changed-files.js --staged)
 if [ -n "$STAGED" ]; then
-  echo "$STAGED" | xargs ./node_modules/.bin/eslint
+  echo "$STAGED" | xargs ./node_modules/.bin/biome check
 fi

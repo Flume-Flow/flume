@@ -6,8 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```sh
 pnpm install          # install dependencies (triggers Node version check)
-pnpm lint             # ESLint across the whole repo
-pnpm lint:fix         # ESLint with auto-fix
+pnpm lint             # Biome check across the whole repo
+pnpm lint:fix         # Biome check with safe auto-fix
+pnpm format           # Biome formatter, write changes
 pnpm build            # compile all buildable workspaces
 pnpm test             # run all tests (scripts/ + cli/) with vitest
 pnpm test:coverage    # run all tests with coverage report

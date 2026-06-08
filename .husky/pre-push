@@ -3,7 +3,7 @@ BASE=$(git merge-base HEAD origin/main 2>/dev/null || echo "")
 if [ -n "$BASE" ]; then
     CHANGED=$(node scripts/changed-files.js --base "$BASE")
     if [ -n "$CHANGED" ]; then
-        echo "$CHANGED" | xargs ./node_modules/.bin/eslint
+        echo "$CHANGED" | xargs ./node_modules/.bin/biome check
     fi
 fi
 
