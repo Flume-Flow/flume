@@ -36,8 +36,6 @@ importers:
         specifier: ^4.1.8
         version: 4.1.8(@types/node@25.9.2)(@vitest/coverage-v8@4.1.8)(@vitest/ui@4.1.8)(vite@8.0.16(@types/node@25.9.2))
 
-  calc: {}
-
   cli:
     dependencies:
       '@oclif/core':
