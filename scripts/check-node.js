@@ -1,10 +1,14 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
-function checkNode(required, actual, platform) {
+// Lower bound: oldest still-maintained LTS major accepted for development.
+// Upper bound comes from .nvmrc (Node 26 had build issues; 24 is the pinned ceiling).
+const NODE_FLOOR = 20;
+
+function checkNode({ min, max }, actual, platform) {
     const major = parseInt(actual.split('.')[0], 10);
 
-    if (major === required) return;
+    if (major >= min && major <= max) return;
 
     const isWindows = platform === 'win32';
 
@@ -22,12 +26,14 @@ function checkNode(required, actual, platform) {
      node scripts/setup-node.js`;
     }
 
+    const range = min === max ? `${min}` : `${min}–${max}`;
+
     console.error(`
 ❌ Wrong Node version: ${actual}
-   This project requires Node ${required}.
+   This project requires Node ${range}.
 
    Right now:     ${switchCmd}
-   If not installed: nvm install ${required}  (or: fnm install ${required})
+   If not installed: nvm install ${max}  (or: fnm install ${max})
 
 ${persistNote}
 `);
@@ -36,8 +42,8 @@ ${persistNote}
 
 if (require.main === module) {
     const nvmrc = path.join(__dirname, '..', '.nvmrc');
-    const required = parseInt(fs.readFileSync(nvmrc, 'utf8').trim(), 10);
-    checkNode(required, process.versions.node, process.platform);
+    const max = parseInt(fs.readFileSync(nvmrc, 'utf8').trim(), 10);
+    checkNode({ min: NODE_FLOOR, max }, process.versions.node, process.platform);
 }
 
 module.exports = checkNode;

@@ -1,4 +1,4 @@
-module.exports = function ({ requiredNode }) {
+module.exports = ({ requiredNode }) => {
     console.log(`
 Windows detected. Auto-switching requires fnm + PowerShell setup:
 

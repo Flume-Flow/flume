@@ -1,9 +1,13 @@
 if git diff --cached --name-only | grep -q 'package\.json'; then
-  pnpm install
-  git add pnpm-lock.yaml
+  if ! pnpm install --frozen-lockfile --lockfile-only >/dev/null 2>&1; then
+    echo "❌ package.json changed but pnpm-lock.yaml is out of sync."
+    echo "   Run: pnpm install"
+    echo "   Then re-stage pnpm-lock.yaml and commit again."
+    exit 1
+  fi
 fi
 
-STAGED=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(js|ts|mjs)$' || true)
+STAGED=$(node scripts/changed-files.js --staged)
 if [ -n "$STAGED" ]; then
-  echo "$STAGED" | xargs ./node_modules/.bin/eslint
+  echo "$STAGED" | xargs ./node_modules/.bin/biome check
 fi

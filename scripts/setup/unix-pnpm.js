@@ -1,6 +1,6 @@
-const childProcess = require('child_process');
+const childProcess = require('node:child_process');
 
-module.exports = function () {
+module.exports = () => {
     try {
         childProcess.execSync('corepack --version', { stdio: 'ignore' });
     } catch {
