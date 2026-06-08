@@ -29,14 +29,14 @@ pnpm --filter @flume/cli test        # run CLI tests only
 pnpm --filter @flume/scripts test    # run scripts tests only
 ```
 
-The test framework is **vitest** across the entire repo. Each workspace owns a `vitest.config.ts` / `vitest.config.mjs` scoped to its own files. The root `vitest.config.ts` derives `test.projects` from `packages` in `pnpm-workspace.yaml` automatically.
+The test framework is **vitest** across the entire repo. Each workspace owns a `vitest.config.ts` / `vitest.config.mjs` scoped to its own files. The root `vitest.config.ts` discovers `test.projects` by globbing each package's vitest config automatically.
 
 Coverage thresholds, includes, and excludes are all defined in `coverage.config.json` and apply to the aggregate across all projects. CI enforces these on non-draft PRs. Locally, the pre-push hook enforces them when `gh` is installed and the PR is marked ready for review — otherwise it warns if coverage drops but doesn't block the push.
 
 ### Adding a new package
 
 1. Add `vitest` to the package's `devDependencies` and create a `vitest.config.ts` scoped to its own files.
-2. Add the package directory to `packages` in `pnpm-workspace.yaml` — it is automatically picked up as a vitest project.
+2. Add the package directory to `packages` in `pnpm-workspace.yaml`. With its own vitest config from step 1, the root config globs it in as a project automatically.
 3. Follow the convention `<package>/src/**/*.ts` for source files and `**/*.test.{js,ts}` for tests — both are already covered by the root `coverage.config.json` globs, so no edits are needed. Only add to `exclude` if the package contains source files that should not be measured (e.g. one-off setup scripts).
 4. If the package is buildable, add a `build` script to its `package.json` — `pnpm build` at the root iterates all workspaces and skips the ones without a `build` script.
 
