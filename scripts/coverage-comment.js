@@ -47,6 +47,17 @@ rl.on('close', () => {
         }
     }
 
+    // Point contributors at the testing guide when any metric is below threshold.
+    const belowThreshold =
+        total.lines.pct < lT ||
+        total.statements.pct < sT ||
+        total.branches.pct < bT ||
+        total.functions.pct < fT;
+
+    if (belowThreshold) {
+        out += `\n> ⚠️ Coverage is below threshold. See [Tests](https://github.com/Flume-Flow/flume/blob/main/CONTRIBUTING.md#tests) in CONTRIBUTING for how coverage is enforced.\n`;
+    }
+
     process.stdout.write(out);
 });
 

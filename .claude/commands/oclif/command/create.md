@@ -95,7 +95,7 @@ Write tests for: happy path (no args), each required flag/arg, and at least one 
 
 Run the tests:
 ```bash
-cd cli && yarn test 2>&1
+cd cli && pnpm test 2>&1
 ```
 
 Fix any TypeScript or test errors before reporting done.
@@ -105,4 +105,4 @@ Fix any TypeScript or test errors before reporting done.
 Show the user:
 - Paths of the created/modified files
 - How to try it: `cd cli && node bin/dev.js <command-name> --help`
-- How to run tests: `cd cli && yarn test`
+- How to run tests: `cd cli && pnpm test`

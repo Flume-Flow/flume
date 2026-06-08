@@ -7,15 +7,15 @@ if [ -n "$BASE" ]; then
     fi
 fi
 
-yarn build
+pnpm build
 
 if command -v gh >/dev/null 2>&1; then
     IS_DRAFT=$(gh pr view --json isDraft -q '.isDraft' 2>/dev/null) || true
     if [ "$IS_DRAFT" = "false" ]; then
-        yarn test:coverage
+        pnpm test:coverage
     fi
 else
-    if ! yarn test:coverage; then
+    if ! pnpm test:coverage; then
         echo ""
         echo "⚠️  Coverage is below thresholds. Install gh CLI to enforce this on every push."
         echo "   Run: node scripts/setup-gh.js"

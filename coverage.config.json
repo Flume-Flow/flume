@@ -6,13 +6,13 @@
     "gap": 2,
     "include": [
         "scripts/**/*.js",
-        "*/src/**/*.ts"
+        "*/src/**/*.{ts,js}"
     ],
     "exclude": [
         "**/*.test.{js,ts}",
         "scripts/setup-gh.js",
         "scripts/setup-node.js",
-        "scripts/setup-yarn.js",
+        "scripts/setup-pnpm.js",
         "scripts/update-coverage.js",
         "scripts/coverage-comment.js"
     ]

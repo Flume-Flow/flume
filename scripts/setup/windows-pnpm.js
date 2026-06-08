@@ -1,11 +1,11 @@
 module.exports = function () {
     console.log(`
-Windows detected. Enable Corepack to provision yarn:
+Windows detected. Enable Corepack to provision pnpm:
 
   1. In an elevated PowerShell:
        corepack enable
 
-  2. Inside this project, \`yarn\` will then auto-use the version pinned by
+  2. Inside this project, \`pnpm\` will then auto-use the version pinned by
      the \`packageManager\` field in package.json.
 `);
     process.exit(0);

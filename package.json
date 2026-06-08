@@ -2,17 +2,13 @@
   "name": "flume",
   "private": true,
   "license": "MIT",
-  "packageManager": "yarn@4.16.0",
-  "workspaces": [
-    "scripts",
-    "cli"
-  ],
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "preinstall": "node scripts/check-node.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
-    "build": "yarn workspaces foreach -A run build",
+    "build": "pnpm -r run build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
