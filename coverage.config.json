@@ -6,7 +6,7 @@
     "gap": 2,
     "include": [
         "scripts/**/*.js",
-        "*/src/**/*.ts"
+        "*/src/**/*.{ts,js}"
     ],
     "exclude": [
         "**/*.test.{js,ts}",
