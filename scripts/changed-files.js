@@ -18,13 +18,17 @@ function parseArgs(argv) {
 }
 
 function listChanged({ staged, base, ext }, runGit) {
-    const extPattern = new RegExp(`\\.(${ext.join('|')})$`, 'i');
+    const suffixes = ext.map((e) => `.${e.toLowerCase()}`);
     const gitArgs = staged
         ? ['diff', '--cached', '--name-only', '--diff-filter=d']
         : ['diff', '--name-only', '--diff-filter=d', `${base}..HEAD`];
     return runGit(gitArgs)
         .split('\n')
-        .filter((f) => f && extPattern.test(f));
+        .filter((f) => {
+            if (!f) return false;
+            const lower = f.toLowerCase();
+            return suffixes.some((s) => lower.endsWith(s));
+        });
 }
 
 /* v8 ignore start */
