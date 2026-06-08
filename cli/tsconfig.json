@@ -17,9 +17,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "importHelpers": true
   },
   "include": [
     "src/**/*"
