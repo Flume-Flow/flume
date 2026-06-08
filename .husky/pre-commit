@@ -1,6 +1,6 @@
 if git diff --cached --name-only | grep -q 'package\.json'; then
-  yarn install
-  git add yarn.lock
+  pnpm install
+  git add pnpm-lock.yaml
 fi
 
 STAGED=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(js|ts|mjs)$' || true)

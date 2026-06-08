@@ -10,7 +10,7 @@ module.exports = function () {
     }
 
     try {
-        console.log('Enabling Corepack (yarn shim)...\n');
+        console.log('Enabling Corepack (pnpm shim)...\n');
         childProcess.execSync('corepack enable', { stdio: 'inherit' });
     } catch {
         console.error(`
@@ -27,8 +27,8 @@ If you use fnm/nvm, the bin directory should be writable — re-run without sudo
     }
 
     console.log(`
-✅ Corepack enabled. Inside this project, \`yarn\` will automatically use the
+✅ Corepack enabled. Inside this project, \`pnpm\` will automatically use the
    version pinned by the \`packageManager\` field in package.json — no global
-   yarn install needed.
+   pnpm install needed.
 `);
 };

@@ -5,19 +5,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```sh
-yarn install          # install dependencies (triggers Node version check)
-yarn lint             # ESLint across the whole repo
-yarn lint:fix         # ESLint with auto-fix
-yarn build            # compile all buildable workspaces
-yarn test             # run all tests (scripts/ + cli/) with vitest
-yarn test:coverage    # run all tests with coverage report
-yarn test:ui          # open Vitest browser UI (all projects)
-yarn workspace @flume/cli build      # compile flume-cli TypeScript only
-yarn workspace @flume/cli dev        # run flume-cli in dev mode
-yarn workspace @flume/cli test       # cli tests only
-yarn workspace @flume/cli test:ui    # open Vitest browser UI (cli only)
-yarn workspace @flume/scripts test   # scripts tests only
-yarn workspace @flume/scripts test:ui # open Vitest browser UI (scripts only)
+pnpm install          # install dependencies (triggers Node version check)
+pnpm lint             # ESLint across the whole repo
+pnpm lint:fix         # ESLint with auto-fix
+pnpm build            # compile all buildable workspaces
+pnpm test             # run all tests (scripts/ + cli/) with vitest
+pnpm test:coverage    # run all tests with coverage report
+pnpm test:ui          # open Vitest browser UI (all projects)
+pnpm --filter @flume/cli build      # compile flume-cli TypeScript only
+pnpm --filter @flume/cli dev        # run flume-cli in dev mode
+pnpm --filter @flume/cli test       # cli tests only
+pnpm --filter @flume/cli test:ui    # open Vitest browser UI (cli only)
+pnpm --filter @flume/scripts test   # scripts tests only
+pnpm --filter @flume/scripts test:ui # open Vitest browser UI (scripts only)
 ```
 
 Run tests for a single project or file:
@@ -29,9 +29,9 @@ npx vitest run scripts/setup/unix-node.test.js   # single file
 
 ## Architecture
 
-This is a Yarn v4 workspaces monorepo (Yarn version pinned via the `packageManager` field in root `package.json`; Corepack auto-provisions it). The root holds shared tooling; the CLI lives in `cli/`.
+This is a pnpm workspaces monorepo (pnpm version pinned via the `packageManager` field in root `package.json`; Corepack auto-provisions it). Workspace packages are listed in `pnpm-workspace.yaml`. The root holds shared tooling; the CLI lives in `cli/`.
 
-**Root `scripts/`** — Node 24 CJS utility scripts, no npm dependencies allowed. Run directly by npm lifecycle hooks (`preinstall`) and manually by developers. `check-node.js` enforces the Node version on every `yarn install`. `setup-node.js` is a one-time developer setup that installs a version manager and configures shell auto-switching. `setup-yarn.js` is a one-time `corepack enable` helper so the pinned Yarn v4 resolves inside the project. `setup-gh.js` is a one-time GitHub CLI installer used by the pre-push hook.
+**Root `scripts/`** — Node 24 CJS utility scripts, no npm dependencies allowed. Run directly by npm lifecycle hooks (`preinstall`) and manually by developers. `check-node.js` enforces the Node version on every `pnpm install`. `setup-node.js` is a one-time developer setup that installs a version manager and configures shell auto-switching. `setup-pnpm.js` is a one-time `corepack enable` helper so the pinned pnpm resolves inside the project. `setup-gh.js` is a one-time GitHub CLI installer used by the pre-push hook.
 
 **`cli/`** — an [oclif](https://oclif.io)-based CLI, TypeScript, compiled to `dist/`. Commands go in `src/commands/` (oclif convention).
 
@@ -47,7 +47,7 @@ This is a Yarn v4 workspaces monorepo (Yarn version pinned via the `packageManag
 - `scripts/*.test.js` — CJS files using vitest globals (`describe`, `it`, `expect`, `vi` — no imports needed, `globals: true` is set in `scripts/vitest.config.mjs`).
 - `cli/src/**/*.test.ts` — TypeScript files with explicit vitest imports.
 
-When adding a new workspace package: create a `vitest.config.ts` inside it (scoped to that package's files) and add its directory name to `workspaces` in root `package.json` (projects are derived from there automatically). The root `coverage.config.json` already includes `*/src/**/*.ts` and `scripts/**/*.js` and excludes `**/*.test.{js,ts}`, so a conventional package layout needs no changes there — only add to `exclude` if the package has source files that should not be measured.
+When adding a new workspace package: create a `vitest.config.ts` inside it (scoped to that package's files) and add its directory name to `packages` in `pnpm-workspace.yaml` (projects are derived from there automatically). The root `coverage.config.json` already includes `*/src/**/*.ts` and `scripts/**/*.js` and excludes `**/*.test.{js,ts}`, so a conventional package layout needs no changes there — only add to `exclude` if the package has source files that should not be measured.
 
 **Mocking in scripts tests**: use `vi.spyOn(obj, 'method').mockImplementation(fn)` and `vi.restoreAllMocks()` in `afterEach`.
 

@@ -9,7 +9,7 @@
     "preinstall": "node ../scripts/check-node.js",
     "dev": "node bin/dev.js",
     "clean": "rm -rf dist",
-    "build": "yarn clean && yarn tsc -b",
+    "build": "pnpm run clean && tsc -b",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",

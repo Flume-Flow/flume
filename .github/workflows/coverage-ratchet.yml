@@ -27,13 +27,13 @@ jobs:
         uses: actions/setup-node@v6.4.0
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Update coverage thresholds
-        run: yarn coverage:update
+        run: pnpm coverage:update
 
       - name: Open PR if thresholds improved
         run: |

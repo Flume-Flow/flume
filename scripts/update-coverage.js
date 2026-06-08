@@ -7,7 +7,7 @@ const configPath = path.join(root, 'coverage.config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 const { lines, branches, functions, statements, gap } = config;
 
-execSync('yarn test:coverage', { stdio: 'inherit', cwd: root });
+execSync('pnpm test:coverage', { stdio: 'inherit', cwd: root });
 
 const summaryPath = path.join(root, 'coverage', 'coverage-summary.json');
 const { total } = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));

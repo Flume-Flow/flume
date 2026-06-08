@@ -1,13 +1,13 @@
 const childProcess = require('child_process');
-const unixYarnSetup = require('./unix-yarn');
+const unixPnpmSetup = require('./unix-pnpm');
 
-describe('unixYarnSetup', () => {
+describe('unixPnpmSetup', () => {
     afterEach(() => vi.restoreAllMocks());
 
     it('errors and exits 1 when corepack is missing', () => {
         const { errMock, exitMock } = setupMocks({ corepackInstalled: false });
 
-        unixYarnSetup();
+        unixPnpmSetup();
 
         expect(exitMock).toHaveBeenCalledWith(1);
         expect(errMock.mock.calls[0][0]).toContain('Corepack not found');
@@ -16,7 +16,7 @@ describe('unixYarnSetup', () => {
     it('runs `corepack enable` when corepack is present', () => {
         setupMocks({ corepackInstalled: true });
 
-        unixYarnSetup();
+        unixPnpmSetup();
 
         const calls = vi.mocked(childProcess.execSync).mock.calls;
         expect(calls.some(([cmd]) => cmd === 'corepack enable')).toBe(true);
@@ -25,7 +25,7 @@ describe('unixYarnSetup', () => {
     it('logs success and does not exit when corepack enable succeeds', () => {
         const { exitMock, logMock } = setupMocks({ corepackInstalled: true });
 
-        unixYarnSetup();
+        unixPnpmSetup();
 
         expect(exitMock).not.toHaveBeenCalled();
         const lastLog = logMock.mock.calls.at(-1)[0];
@@ -36,7 +36,7 @@ describe('unixYarnSetup', () => {
     it('exits 1 with sudo hint when `corepack enable` fails', () => {
         const { errMock, exitMock } = setupMocks({ corepackInstalled: true, enableFails: true });
 
-        unixYarnSetup();
+        unixPnpmSetup();
 
         expect(exitMock).toHaveBeenCalledWith(1);
         expect(errMock.mock.calls[0][0]).toContain('sudo corepack enable');
