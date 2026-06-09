@@ -9,13 +9,8 @@ You are starting issue-driven work that ends in a PR linked to a GitHub issue.
 - Branch convention: `i-<N>-<slug>` where slug = first ~4 meaningful title words, lowercased, kebab-cased (skip stop-words like `add`, `the`, `a`, `for`, `to`).
 - PR body must contain `Closes #N` (ready) or `Refs #N` (draft / partial).
 - Honor `.github/PULL_REQUEST_TEMPLATE.md` when present.
-- Never modify files under `.specify/` — that's Spec Kit-generated content.
 
-## Step 1 — Spec Kit guard
-
-Get the current branch with `git branch --show-current`. If `.specify/specs/<current-branch>/` exists, this is Spec Kit work — tell the user to use `/speckit.implement` instead and stop.
-
-## Step 2 — Resolve the issue
+## Step 1 — Resolve the issue
 
 The user may have passed: `$ARGUMENTS`
 
@@ -42,18 +37,18 @@ Present the numbered list with `AskUserQuestion`. Options: each result, "None ma
 2. Show the draft, confirm or accept edits via `AskUserQuestion`.
 3. `gh issue create --title "<title>" --body "<body>"` and capture the new number.
 
-## Step 3 — Branch
+## Step 2 — Branch
 
 1. Slugify the issue title per the convention above.
 2. Look for an existing branch: `git branch --list "i-<N>-*"`.
 3. If found → `git checkout` it and tell the user you're resuming.
 4. If not → `git fetch origin main && git checkout -b i-<N>-<slug> origin/main`.
 
-## Step 4 — Scope check
+## Step 3 — Scope check
 
 Read the issue body. Judge whether the work fits one PR (one cohesive change, ≲300 lines net diff, doesn't span unrelated subsystems).
 
-**Fits** → continue to Step 5.
+**Fits** → continue to Step 4.
 
 **Doesn't fit** → stop, propose a split (2–5 child tasks, each shippable on its own) via `AskUserQuestion`. On approval:
 
@@ -66,11 +61,11 @@ Read the issue body. Judge whether the work fits one PR (one cohesive change, �
 2. Tell the user: parent updated; create child issues manually and re-run `/work-on #<child-N>` to start the first.
 3. Stop. Do not create children. Do not implement.
 
-## Step 5 — Implement
+## Step 4 — Implement
 
 Carry out the work, following the conventions in `CLAUDE.md`.
 
-## Step 6 — Pre-PR gates
+## Step 5 — Pre-PR gates
 
 ```bash
 pnpm lint && pnpm test
@@ -78,7 +73,7 @@ pnpm lint && pnpm test
 
 Fix any failure before opening the PR.
 
-## Step 7 — Open the PR
+## Step 6 — Open the PR
 
 1. Read `.github/PULL_REQUEST_TEMPLATE.md` if present and fill `## What`, `## Why`, leave `## Checklist` as-is.
 2. Append `Closes #<N>` (or `Refs #<N>` for `--draft`). Multi-issue PR: stack `Closes #N, Closes #M`.

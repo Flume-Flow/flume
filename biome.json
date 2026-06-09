@@ -16,8 +16,7 @@
       "!**/coverage",
       "!**/node_modules",
       "!pnpm-lock.yaml",
-      "!**/.idea",
-      "!.specify"
+      "!**/.idea"
     ]
   },
   "formatter": {
