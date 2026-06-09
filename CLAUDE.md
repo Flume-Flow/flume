@@ -53,3 +53,8 @@ When adding a new workspace package: create a `vitest.config.ts` inside it (scop
 **Mocking in scripts tests**: use `vi.spyOn(obj, 'method').mockImplementation(fn)` and `vi.restoreAllMocks()` in `afterEach`.
 
 **CLI command tests**: oclif's `this.log()` routes through `console.log` — spy on `console.log`, not `process.stdout.write`. Always pass `import.meta.url` as the second arg to `Command.run()` so oclif loads the correct `package.json`.
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->
