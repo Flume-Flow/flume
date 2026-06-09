@@ -5,34 +5,31 @@
   "author": "Oleksandr Samsonov",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "flume": "dist/main.js"
+  },
   "scripts": {
     "preinstall": "node ../scripts/check-node.js",
-    "dev": "node bin/dev.js",
     "clean": "rm -rf dist",
-    "build": "pnpm run clean && tsc -b",
+    "build": "pnpm run clean && tsup",
+    "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui",
-    "prepublishOnly": "cp ../LICENSE ./LICENSE",
-    "postpublish": "rm ./LICENSE"
-  },
-  "bin": {
-    "flume": "./bin/run.js"
-  },
-  "oclif": {
-    "bin": "flume",
-    "commands": "./dist/commands",
-    "dirname": "flume",
-    "topicSeparator": " "
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "@oclif/core": "^4.11.4"
+    "commander": "^12.0.0",
+    "ink": "^5.0.0",
+    "ink-select-input": "^6.0.0",
+    "ink-text-input": "^6.0.0",
+    "omelette": "^0.4.14",
+    "react": "^18.2.0"
   },
   "devDependencies": {
-    "@oclif/test": "^4.1.18",
-    "@types/node": "^25.9.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "@types/react": "^18.2.0",
+    "ink-testing-library": "^4.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.0"
   }
 }

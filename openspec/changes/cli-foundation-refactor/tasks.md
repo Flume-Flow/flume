@@ -8,13 +8,13 @@
 
 ## 2. Update cli/package.json
 
-- [ ] 2.1 Remove `@oclif/core` and `@oclif/test` from `dependencies`/`devDependencies`; remove `ts-node` from `devDependencies`
-- [ ] 2.2 Remove the `oclif` config block from `package.json`
-- [ ] 2.3 Add runtime dependencies: `commander@^12.0.0`, `omelette@^0.4.14`, `ink@^5.0.0`, `ink-select-input@^5.0.0`, `ink-text-input@^6.0.0`, `react@^18.2.0`
-- [ ] 2.4 Add dev dependencies: `tsup@^8.0.0`, `@types/react@^18.2.0`, `ink-testing-library@^4.0.0`
-- [ ] 2.5 Update `bin` field to `{ "flume": "dist/main.js" }`
-- [ ] 2.6 Update `build` script to `pnpm run clean && tsup`; update `dev` script to `tsup --watch`; remove the `prepublishOnly`/`postpublish` oclif scripts
-- [ ] 2.7 Run `pnpm install` from repo root to update lockfile
+- [x] 2.1 Remove `@oclif/core` and `@oclif/test` from `dependencies`/`devDependencies`; remove `ts-node` from `devDependencies`
+- [x] 2.2 Remove the `oclif` config block from `package.json`
+- [x] 2.3 Add runtime dependencies: `commander@^12.0.0`, `omelette@^0.4.14`, `ink@^5.0.0`, `ink-select-input@^6.0.0`, `ink-text-input@^6.0.0`, `react@^18.2.0`
+- [x] 2.4 Add dev dependencies: `tsup@^8.0.0`, `@types/react@^18.2.0`, `ink-testing-library@^4.0.0`
+- [x] 2.5 Update `bin` field to `{ "flume": "dist/main.js" }`
+- [x] 2.6 Update `build` script to `pnpm run clean && tsup`; update `dev` script to `tsup --watch`; remove the `prepublishOnly`/`postpublish` oclif scripts
+- [x] 2.7 Run `pnpm install` from repo root to update lockfile
 
 ## 3. Build toolchain
 
