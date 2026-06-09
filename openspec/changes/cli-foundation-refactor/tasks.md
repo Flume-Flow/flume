@@ -18,8 +18,8 @@
 
 ## 3. Build toolchain
 
-- [ ] 3.1 Create `cli/tsup.config.ts`: entry `src/main.ts`, format `esm`, target `node18`, `esbuildOptions` with `jsx: 'automatic'`, banner `#!/usr/bin/env node` on `js` output
-- [ ] 3.2 Update `cli/tsconfig.json`: remove `composite`, `outDir`, `rootDir`, `declarationMap`, `declaration`, `importHelpers`; add `"jsx": "react-jsx"`; keep `strict`, `skipLibCheck`, `esModuleInterop`
+- [x] 3.1 Create `cli/tsup.config.ts`: entry `src/main.ts`, format `esm`, target `node18`, `esbuildOptions` with `jsx: 'automatic'`, banner `#!/usr/bin/env node` on `js` output
+- [x] 3.2 Update `cli/tsconfig.json`: remove `composite`, `outDir`, `rootDir`, `declarationMap`, `declaration`, `importHelpers`; add `"jsx": "react-jsx"`; keep `strict`, `skipLibCheck`, `esModuleInterop`
 
 ## 4. Source structure
 
