@@ -23,8 +23,8 @@
 
 ## 4. Source structure
 
-- [ ] 4.1 Create `cli/src/ui/index.ts` (empty barrel export as placeholder)
-- [ ] 4.2 Create `cli/src/core/index.ts` (empty barrel export as placeholder)
+- [x] 4.1 Create `cli/src/ui/index.ts` (empty barrel export as placeholder)
+- [x] 4.2 Create `cli/src/core/index.ts` (empty barrel export as placeholder)
 
 ## 5. CLI entry point and commands
 
