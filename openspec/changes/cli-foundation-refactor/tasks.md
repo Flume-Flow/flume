@@ -33,7 +33,7 @@
 
 ## 6. Tests
 
-- [ ] 6.1 Create `cli/src/commands/echo.test.ts`: test that `register` attaches the echo command and that invoking it with a message argument outputs that message
+- [x] 6.1 Create `cli/src/commands/echo.test.ts`: test that `register` attaches the echo command and that invoking it with a message argument outputs that message
 
 ## 7. Documentation
 
