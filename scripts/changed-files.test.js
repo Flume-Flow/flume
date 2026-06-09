@@ -1,11 +1,11 @@
 const { parseArgs, listChanged } = require('./changed-files');
 
 describe('parseArgs', () => {
-    it('defaults to non-staged, origin/main base, js/ts/mjs extensions', () => {
+    it('defaults to non-staged, origin/main base, biome-lintable extensions', () => {
         expect(parseArgs([])).toEqual({
             staged: false,
             base: 'origin/main',
-            ext: ['js', 'ts', 'mjs'],
+            ext: ['js', 'ts', 'mjs', 'cjs', 'json'],
         });
     });
 
