@@ -65,8 +65,3 @@ Before running `gh pr create`, the PR body must include `Closes #N` or `Refs #N`
 - CI / tooling config (`.github/workflows`, `.editorconfig`, `.vscode`, etc.).
 
 Branch naming for issue-driven work: `i-<N>-<slug>` (slug = first ~4 meaningful title words, kebab-cased).
-
-<!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
-<!-- SPECKIT END -->
