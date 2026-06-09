@@ -1,11 +1,21 @@
-## ADDED Requirements
+# Capability: cli-directory-structure
 
-### Requirement: src/ has three layers
-`cli/src/` SHALL contain exactly three subdirectories for application code: `commands/`, `ui/`, and `core/`. `main.ts` SHALL live at the root of `src/`. No application source files SHALL be placed directly in `src/` other than `main.ts`.
+## Purpose
 
-#### Scenario: Three subdirectories exist after setup
+Source directory layout conventions for the CLI package, defining three application layers (commands, ui, core) and enforcing dependency direction between them.
+
+## Requirements
+
+### Requirement: src/ has three application layers
+`cli/src/` SHALL contain three subdirectories for application code: `commands/`, `ui/`, and `core/`. `main.ts` SHALL live at the root of `src/`. No application source files SHALL be placed directly in `src/` other than `main.ts`. A `types/` subdirectory MAY exist solely for ambient module declarations (`.d.ts` shims for third-party packages that ship no TypeScript types); it SHALL NOT contain application logic.
+
+#### Scenario: Three application subdirectories exist after setup
 - **WHEN** `cli/src/` is listed
 - **THEN** `commands/`, `ui/`, and `core/` are present as directories
+
+#### Scenario: types/ contains only ambient declarations
+- **WHEN** `src/types/` exists and any file within it is inspected
+- **THEN** every file is a `.d.ts` file containing only `declare module` blocks and no runtime code
 
 ### Requirement: commands/ contains commander command files
 Each file in `cli/src/commands/` SHALL define exactly one CLI command and SHALL export a `register(program: Command): void` function. Command files SHALL be named after the command they implement (e.g., `echo.ts` for the `echo` command).
