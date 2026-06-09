@@ -41,8 +41,8 @@
 
 ## 8. CI and coverage
 
-- [ ] 8.1 Manually reset `coverage.config.json` thresholds to 0 (or a safe floor) so the ratchet can re-baseline after the PR merges — deleting the old test drops prior coverage numbers
-- [ ] 8.2 Verify `pnpm build` passes from the repo root (tsup produces `cli/dist/main.js` with shebang)
-- [ ] 8.3 Verify `pnpm test` passes (new echo test green, no stale oclif tests)
-- [ ] 8.4 Verify `pnpm lint` passes (no oclif references, no biome errors)
-- [ ] 8.5 Smoke-test: `node cli/dist/main.js echo hello` prints `hello`
+- [x] 8.1 Manually reset `coverage.config.json` thresholds to 0 (or a safe floor) so the ratchet can re-baseline after the PR merges — deleting the old test drops prior coverage numbers
+- [x] 8.2 Verify `pnpm build` passes from the repo root (tsup produces `cli/dist/main.js` with shebang)
+- [x] 8.3 Verify `pnpm test` passes (new echo test green, no stale oclif tests)
+- [x] 8.4 Verify `pnpm lint` passes (no oclif references, no biome errors)
+- [x] 8.5 Smoke-test: `node cli/dist/main.js echo hello` prints `hello`
