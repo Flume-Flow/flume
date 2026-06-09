@@ -13,8 +13,9 @@ pnpm build            # compile all buildable workspaces
 pnpm test             # run all tests (scripts/ + cli/) with vitest
 pnpm test:coverage    # run all tests with coverage report
 pnpm test:ui          # open Vitest browser UI (all projects)
-pnpm --filter @flume/cli build      # compile flume-cli TypeScript only
-pnpm --filter @flume/cli dev        # run flume-cli in dev mode
+pnpm --filter @flume/cli build      # bundle flume-cli with tsup
+pnpm --filter @flume/cli dev        # watch mode (tsup --watch)
+pnpm --filter @flume/cli start      # run the built CLI (node dist/main.js)
 pnpm --filter @flume/cli test       # cli tests only
 pnpm --filter @flume/cli test:ui    # open Vitest browser UI (cli only)
 pnpm --filter @flume/scripts test   # scripts tests only
@@ -34,7 +35,15 @@ This is a pnpm workspaces monorepo (pnpm version pinned via the `packageManager`
 
 **Root `scripts/`** — Node 24 CJS utility scripts, no npm dependencies allowed. Run directly by npm lifecycle hooks (`preinstall`) and manually by developers. `check-node.js` enforces the Node version on every `pnpm install`. `setup-node.js` is a one-time developer setup that installs a version manager and configures shell auto-switching. `setup-pnpm.js` is a one-time `corepack enable` helper so the pinned pnpm resolves inside the project. `setup-gh.js` is a one-time GitHub CLI installer used by the pre-push hook.
 
-**`cli/`** — an [oclif](https://oclif.io)-based CLI, TypeScript, compiled to `dist/`. Commands go in `src/commands/` (oclif convention).
+**`cli/`** — a [commander](https://github.com/tj/commander.js)-based CLI, TypeScript, bundled to `dist/main.js` by [tsup](https://tsup.egoist.dev). Terminal UI is built with [ink](https://github.com/vadimdemedes/ink) (React for CLIs). Shell tab-completion is provided by [omelette](https://github.com/f/omelette).
+
+`cli/src/` has three layers — import direction is `commands/ → ui/ → core/`, never reversed:
+
+- **`commands/`** — one file per CLI command; each exports `register(program: Command): void` that attaches the command to the commander program.
+- **`ui/`** — ink React components (pure UI, no business logic, no imports from `commands/`).
+- **`core/`** — shared utilities and logic (no imports from `commands/` or `ui/`).
+
+The entry point is `src/main.ts` (compiled to `dist/main.js`). Every TypeScript workspace package uses tsup for builds; `pnpm build` from the root runs `pnpm -r run build` which auto-discovers all packages with a `build` script — no package names are hard-coded. Plain CJS `scripts/` is exempt (no compilation needed).
 
 ## Conventions
 
@@ -52,7 +61,11 @@ When adding a new workspace package: create a `vitest.config.ts` inside it (scop
 
 **Mocking in scripts tests**: use `vi.spyOn(obj, 'method').mockImplementation(fn)` and `vi.restoreAllMocks()` in `afterEach`.
 
-**CLI command tests**: oclif's `this.log()` routes through `console.log` — spy on `console.log`, not `process.stdout.write`. Always pass `import.meta.url` as the second arg to `Command.run()` so oclif loads the correct `package.json`.
+**CLI command tests**: commander output goes through `console.log` — spy on `console.log`, not `process.stdout.write`. Call `program.exitOverride()` before parsing in tests so commander throws instead of calling `process.exit`. Use `program.parseAsync` for async actions, `program.parse` for sync. No `import.meta.url` argument needed (that was an oclif convention).
+
+**ink component tests**: use `render` from `ink-testing-library` and assert on `lastFrame()` output. Do not intercept `console.log` as a proxy for ink render output.
+
+**Shell completion**: omelette completion requires a one-time manual install by the user — run `node dist/main.js --completion >> ~/.zshrc` (or `~/.bashrc`) once. Normal CLI invocations never modify shell config files.
 
 ## Issue & PR policy
 
