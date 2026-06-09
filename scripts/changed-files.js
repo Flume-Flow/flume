@@ -1,6 +1,6 @@
 const { execFileSync } = require('node:child_process');
 
-const EXT_DEFAULT = ['js', 'ts', 'mjs'];
+const EXT_DEFAULT = ['js', 'ts', 'mjs', 'cjs', 'json'];
 
 function parseArgs(argv) {
     const args = { staged: false, base: 'origin/main', ext: EXT_DEFAULT };
