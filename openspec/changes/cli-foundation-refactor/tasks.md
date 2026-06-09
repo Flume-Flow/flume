@@ -37,7 +37,7 @@
 
 ## 7. Documentation
 
-- [ ] 7.1 Update `CLAUDE.md`: replace build command (`tsc -b` → `tsup`), update architecture section (remove oclif references, describe three-layer `src/` structure and tsup convention), update CLI command test convention (spy on `console.log`, no `import.meta.url` arg needed with commander), add note about omelette completion install
+- [x] 7.1 Update `CLAUDE.md`: replace build command (`tsc -b` → `tsup`), update architecture section (remove oclif references, describe three-layer `src/` structure and tsup convention), update CLI command test convention (spy on `console.log`, no `import.meta.url` arg needed with commander), add note about omelette completion install
 
 ## 8. CI and coverage
 
