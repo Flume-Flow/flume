@@ -54,6 +54,18 @@ When adding a new workspace package: create a `vitest.config.ts` inside it (scop
 
 **CLI command tests**: oclif's `this.log()` routes through `console.log` — spy on `console.log`, not `process.stdout.write`. Always pass `import.meta.url` as the second arg to `Command.run()` so oclif loads the correct `package.json`.
 
+## Issue & PR policy
+
+Before running `gh pr create`, the PR body must include `Closes #N` or `Refs #N` (use `Refs` for drafts or partial work toward an issue). If neither, run `/work-on` first to resolve or create an issue.
+
+**Exempt** (don't require a linked issue):
+- Typo / formatting-only diffs.
+- Docs-only diffs (CLAUDE.md, README, code comments).
+- Semver-patch dep bumps (no API change).
+- CI / tooling config (`.github/workflows`, `.editorconfig`, `.vscode`, etc.).
+
+Branch naming for issue-driven work: `i-<N>-<slug>` (slug = first ~4 meaningful title words, kebab-cased).
+
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
