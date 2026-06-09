@@ -28,8 +28,8 @@
 
 ## 5. CLI entry point and commands
 
-- [ ] 5.1 Create `cli/src/main.ts`: instantiate commander `Program`, set name/version/description, call `register` for each command, initialize omelette with the command tree, call `program.parse(process.argv)`
-- [ ] 5.2 Create `cli/src/commands/echo.ts`: export `register(program: Command): void` that adds an `echo <message>` command which prints `message` to stdout
+- [x] 5.1 Create `cli/src/main.ts`: instantiate commander `Program`, set name/version/description, call `register` for each command, initialize omelette with the command tree, call `program.parse(process.argv)`
+- [x] 5.2 Create `cli/src/commands/echo.ts`: export `register(program: Command): void` that adds an `echo <message>` command which prints `message` to stdout
 
 ## 6. Tests
 
