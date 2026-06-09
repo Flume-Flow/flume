@@ -15,6 +15,7 @@ pnpm test:coverage    # run all tests with coverage report
 pnpm test:ui          # open Vitest browser UI (all projects)
 pnpm --filter @flume/cli build      # bundle flume-cli with tsup
 pnpm --filter @flume/cli dev        # watch mode (tsup --watch)
+pnpm --filter @flume/cli start      # run the built CLI (node dist/main.js)
 pnpm --filter @flume/cli test       # cli tests only
 pnpm --filter @flume/cli test:ui    # open Vitest browser UI (cli only)
 pnpm --filter @flume/scripts test   # scripts tests only
