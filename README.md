@@ -1,10 +1,7 @@
 <div align="center">
   <picture>
-    <source srcset="icon_transparent.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="icon_transparent.svg" media="(prefers-color-scheme: light)">
-    <img src="icon_square.svg" alt="Flume logo" width="80" height="80">
+    <img src="logo_square.svg" alt="Flume logo" width="150" height="150">
   </picture>
-
   <h1>Flume</h1>
   <p>A workflow engine for verified AI development.</p>
   <p><strong>🚧 Work in progress — nothing working yet.</strong></p>
