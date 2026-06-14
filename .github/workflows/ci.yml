@@ -128,7 +128,7 @@ jobs:
 
       - name: Post coverage comment
         if: always() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && steps.cov.outputs.has_js == 'true'
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: coverage
           message: ${{ steps.cov.outputs.comment }}
